@@ -2,6 +2,9 @@ var d3 = require('d3');
 var _ = require('lodash');
 var Map = require('../../d3by5-map');
 
+var width = document.getElementsByClassName('wrapper')[0].offsetWidth;
+var height = 400;
+
 // load data
 d3.queue()
   .defer(d3.json, '/demo/data/world-topo.json')      // our geometries
@@ -34,51 +37,72 @@ function loadMap(error, world, demoData) {
       values : demoData
     };
 
- // init map module
   map1 = new Map()
+    .width(width)
+    .height(height)
     .data(data)
     .geoData(world)
-    .margin(10)
+    .color(colors)
+    .zoomResetOnOceanClick(true)
+    .showToolTipOn(false)
+    .backgroundgColor('#006994')
+    ;
+
+  map2 = new Map()
+    .width(width)
+    .height(height)
+    .data(data)
+    .geoData(world)
+    .margin(30)
     .higlightOnHover(true)
-    // .offSetX(-50)
+    // .offSetX(-150)
     // .offSetY(-10)
-    .zoomMax(10)
+    .zoomMax(20)
     .color(colors)           // scale mapping property to color
     .texture(textures)       // scale mappng property to texture
-    .responsive(true)
+    // .responsive(true)
     .countryIsoCodeMap('properties.countryCode')
     .projection('geoWinkel3')  // .geoWinkel3 // d3.geoCylindricalEqualArea  // d3.geoMercator    //d3.geoEquirectangular
+    // .projectionFit(false)
     .showToolTipOn('click')
     .assetsUrl('demo/')
-    .backgroundgColor('#ddd')
-
-
+    .backgroundgColor('#6C7C7C')
+    .zoomControls(true)
+    .zoomGestures(true)
+    .showLabels(true)
     // .toolTipTemplate(toolTipTemplate)
   ;
 
-  map2 = new Map()
+  map3 = new Map()
+    .width(width)
+    .height(height)
     .data(data)
     .geoData(world)
-    .color(colors)           // scale mapping property to color
-    // .classPrefix('map2')
-    // .margin(10)
-    // .zoomMax(10)
-    // // .texture(textures)       // scale mappng property to texture
-    // .responsive(true)
-    // .countryIsoCodeMap('properties.countryCode')
-    // .projection('geoWinkel3')  // .geoWinkel3 // d3.geoCylindricalEqualArea  // d3.geoMercator    //d3.geoEquirectangular
-    // .showToolTipOn('hover')
-    // .assetsUrl('demo/')
-    // .backgroundgColor('#ddd')
+    .projection('geoAzimuthalEqualArea')
+    .color(colors)
+    .showLabels(3)
+    .zoomResetOnOceanClick(true)
+    .showToolTipOn('hover')
+    .backgroundgColor('#6C7C7C')
+    ;
 
-;
-
+  map4 = new Map()
+    .width(width)
+    .height(height)
+    .data(data)
+    .geoData(world)
+    .projection('geoEckert4')
+    .color(colors)
+    .zoomResetOnOceanClick(true)
+    .showToolTipOn(false)
+    .backgroundgColor('#006994')
+    ;
 
 
    // call on elm
    d3.select('#map1').call(_.bind(map1.init, map1));
    d3.select('#map2').call(_.bind(map2.init, map2));
-   // d3.select('#map3').call(_.bind(map.init, map));
-   // d3.select('#map4').call(_.bind(map.init, map));
+   d3.select('#map3').call(_.bind(map3.init, map3));
+   d3.select('#map4').call(_.bind(map4.init, map4));
 
 }

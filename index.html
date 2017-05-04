@@ -15,37 +15,79 @@
   <header id="header" class="page__header">
     <div class="container">
       <div class="content has-text-centered">
-        <h1>d3by5</h1>
-        <h2>Map</h2>
+        <h1>d3by5 Maps</h1>
       </div>
     </div>
   </header>
 
   <div class="page__main section">
     <div class="container">
-      <div class="columns">
-        <div class="column is-half">
+      <div class="columns is-gapless is-multiline">
+        <div class="column is-2">
+          <pre><code class="language-js">new Map()
+  .data(data)
+  .geoData(world)
+  .color(colors)
+  .zoomResetOnOceanClick(true)
+  .showToolTipOn(false)
+  .backgroundgColor('#006994');</code></pre>
+        </div>
+        <div class="column is-4 wrapper">
           <div id="map1"></div>
         </div>
-        <div class="column is-half">
+        <div class="column is-4 wrapper">
           <div id="map2"></div>
         </div>
-        <div class="column is-half">
-          <div id="map3"></div>
-        </div>
-        <div class="column is-half">
-          <div id="map4"></div>
+        <div class="column is-2">
+          <pre><code class="language-js">new Map()
+  .data(data)
+  .geoData(world)
+  .margin(10)
+  .higlightOnHover(true)
+  .zoomMax(20)
+  .color(colors)
+  .texture(textures)
+  .countryIsoCodeMap('properties.countryCode')
+  .projection('geoWinkel3')
+  .showToolTipOn('click')
+  .assetsUrl('demo/')
+  .backgroundgColor('#6C7C7C')
+  .zoomControls(true)
+  .zoomGestures(true)
+  .showLabels(true);</code></pre>
         </div>
 
+        <div class="column is-2">
+          <pre><code class="language-js">new Map()
+  .data(data)
+  .geoData(world)
+  .projection('geoAzimuthalEqualArea')
+  .color(colors)
+  .showLabels(3)
+  .zoomResetOnOceanClick(true)
+  .showToolTipOn('hover')
+  .backgroundgColor('#6C7C7C');</code></pre>
+        </div>
+        <div class="column is-4 wrapper">
+          <div id="map3"></div>
+        </div>
+        <div class="column is-4 wrapper">
+          <div id="map4"></div>
+        </div>
+        <div class="column is-2">
+          <pre><code class="language-js">new Map()
+  .data(data)
+  .geoData(world)
+  .projection('geoEckert4')
+  .color(colors)
+  .zoomResetOnOceanClick(true)
+  .showToolTipOn(false)
+  .backgroundgColor('#006994');</code></pre>
+        </div>
       </div>
     </div>
   </div>
 
-
-      <pre><code class="language-js">
-          [main.js demo code goes here!]
-        </code></pre>
-  
   <footer class="footer">
     <div class="container">
       <div class="content has-text-centered">
