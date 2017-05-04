@@ -1,14 +1,29 @@
-// 1. Import the initial variables
 @import "../../node_modules/bulma/sass/utilities/initial-variables";
+// override variables here...
+@import "../../node_modules/bulma/sass/utilities/_all";
+@import "../../node_modules/bulma/sass/base/generic";
+@import "../../node_modules/bulma/sass/base/helpers";
+@import "../../node_modules/bulma/sass/grid/columns";
+@import "../..//node_modules/bulma/sass/layout/section";
+@import "../..//node_modules/bulma/sass/layout/footer";
 
-// 4. Import the rest of Bulma
-@import "../../node_modules/bulma/bulma";
+
+/**
+ * prism style overrides
+ */
+code[class*="language-"] {
+  padding: 0;
+}
+pre[class*="language-"] {
+  padding-top: 0;
+}
 
 
-
+/**
+ * MAP STYLES
+ */
 $prefix : 'd3x5_';
 
-/* map styles */
 .#{$prefix}hidden {
   opacity: 0;
   display: none;
@@ -67,10 +82,10 @@ $prefix : 'd3x5_';
   cursor: pointer;
 }
 
+
 /**
  * d3by5 Map Features
  */
-
 .#{$prefix}graticule {
   fill: none;
   stroke: #777;
