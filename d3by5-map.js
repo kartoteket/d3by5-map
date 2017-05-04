@@ -21,16 +21,20 @@
       options : {
 
         data : {},                   // data to visualize
-        geoData : {},                // typically topoJson
+        geoData : {},                // topoJson (only for now)
 
         width : 960,
         height : 500,
         aspectRatio: 500 / 960,
-        margin: 20,                // for now single value
-        offSetX: 0,                // shifts the entire map horisointally in pixels
-        offSetY: 0,                // shifts the entire map veritcaly in pixels
-        zoomMin: 1,                // min zoom level
-        zoomMax: 20,               // max zoom level
+        margin: 20,                   // for now single value
+        offSetX: 0,                   // shifts the entire map horisointally in pixels
+        offSetY: 0,                   // shifts the entire map veritcaly in pixels
+
+        zoomMin: 1,                   // min zoom level
+        zoomMax: 20,                  // max zoom level
+        zoomGestures: true,          // "Free zoom" (mouse scroll wheel, touch gestures)
+        zoomControls: false,          // toggle zoomButtons
+        zoomResetOnOceanClick: false, // reset zoom on background area click
 
         baseColor: '#F8EBCB',
         backgroundgColor: '#ffffff',
@@ -39,20 +43,21 @@
         // fillColorMap: {},         // for simple mapping of fillColors
 
         projection: 'geoMercator',   // projection
-        scale: 2,                    // not quiter sure about this one
-        responsive: true,
+        scale: 0.85,                    // not quiter sure about this one
+        responsive: false,
         graticule: false,            // graticules: a uniform grid of meridians and parallels for showing projection distortion
         projectionFit: true,         // tries to fit the map inside container. Todo: rename ??
 
-        countryIsoCodeMap : null,                 // If the topojson does not store the ISO code in  "geometries.id", use this to map the correct attribute (uses dot notation, eg "properties.countryCode")
+        countryIsoCodeMap : null,    // If the topojson does not store the ISO code in  "geometries.id", use this to map the correct attribute (uses dot notation, eg "properties.countryCode")
 
         color: null,
         texture: null,
         colorKey: 'properties.fillColorMapKey',
         textureKey: 'properties.texturesMapKey',
 
-        higlightOnHover: false,
-        showToolTipOn: 'hover',      // [click, hover, none]
+        showLabels: 0,                // Bboolean or integer] false/0 = off, true/1 = on, 2 - 20 = zoomLevelTreshold
+        higlightOnHover: false,       // higlight country (or group of countries) on hover
+        showToolTipOn: 'hover',       // [click, hover, none]
 
         toolTipTemplate: function(d, data) {
           return '<h3 class="d3x5_tooltip__header">' + d.properties.name + '</h3>';
@@ -118,6 +123,7 @@
           , scale = opt.scale
           , width = opt.width
           , height = opt.height
+          , zoom
           , aspectRatio = opt.aspectRatio
           , projection
           , color
@@ -161,11 +167,11 @@
           path = d3.geoPath().projection(projection);
 
           // zoom
-          var zoom = d3.zoom()
-              .scaleExtent([opt.zoomMin, opt.zoomMax])   // min max zoom levels
-              .on('zoom', zoomed)
-              .on('start', zoomedStart)
-              .on('end', zoomedEnd);
+          zoom = d3.zoom()
+            .scaleExtent([opt.zoomMin, opt.zoomMax])   // min max zoom levels
+            .on('zoom', zoomed)
+            .on('start', zoomedStart)
+            .on('end', zoomedEnd);
 
           // geoJson
           countries = topojson.feature(opt.geoData, opt.geoData.objects.countries).features;
@@ -238,7 +244,7 @@
 
           // start wrting to the dom
           dom = d3.select(this);
-          dom.style('background', opt.backgroundgColor);
+          // dom.style('background', opt.backgroundgColor);
 
           // cleanup if on redraw. TODO: not very elegant...
           if (dom.select('svg')) {
@@ -252,7 +258,8 @@
           // svg element
           svg = dom.append('svg')
               .attr('width', width)
-              .attr('height', height);
+              .attr('height', height)
+              .attr('display', 'block');
 
           if(opt.offSetX || opt.offSetY) {
             svg.style('transform', function(){
@@ -260,8 +267,10 @@
             });
           }
 
-          // Free Zoom (mouseweel, etc). TODO: Add as option "ZoomFree"
-          svg.call(zoom);
+          // Free Zoom (mouseweel, etc)
+         if(opt.zoomGestures) {
+           svg.call(zoom);
+         }
 
           // Init Textures
           if(opt.texture || multipleColors) {
@@ -299,10 +308,13 @@
           rect = svg.append('rect')
               .attr('width', width)
               .attr('height', height)
-              .style('fill', opt.backgroundgColor)
-              .on('click', resetZoom);
+              .style('fill', opt.backgroundgColor);
 
-          g = svg.append('g').style('font-size', '1em');
+          if (opt.zoomResetOnOceanClick) {
+            rect.on('click', resetZoom);
+          }
+
+          g = svg.append('g').style('font-size', '0.5em');
 
           // lat/lng lines
           if(opt.graticule) {
@@ -416,8 +428,8 @@
 
           /******************************************
           Zoom methods
+          TODO: events (start, end) seems to fire twice...
           /*************************************** */
-
 
           function zoomed() {
             var transform =  d3.event.transform;                                // same as d3.zoomTransform(this);
@@ -436,26 +448,36 @@
               , zoomLevel = Math.round(d3.event.transform.k)
               , isZoomed = (zoomLevel > opt.zoomMin)
               , isMaxZoom = (zoomLevel === opt.zoomMax)
-              , zoomIn = svg.select('.'+opt.classPrefix+'zoom-control--in')
-              , zoomOut = svg.select('.'+opt.classPrefix+'zoom-control--out');
+              , zoomIn
+              , zoomOut
+              ;
 
             // toggle classes on zoom UI
             // rect.classed(opt.classPrefix + 'clickable', isZoomed);
-            zoomOut.classed(opt.classPrefix + 'clickable',isZoomed);
-            zoomIn.classed(opt.classPrefix + 'clickable', !isMaxZoom);
-
-            // toggle Tooltip (maybe also ad hoc ??!?)
-            if(!isZoomed && (!d3.event.sourceEvent || d3.event.sourceEvent.srcElement.id !== 'RUS')) { // TODO: fails on russia
-              svg.select('.'+opt.classPrefix + 'tooltip').classed(opt.classPrefix + 'hidden', true);
+            if (opt.zoomControls) {
+              zoomIn = svg.select('.'+opt.classPrefix+'zoom-control--in');
+              zoomOut = svg.select('.'+opt.classPrefix+'zoom-control--out');
+              zoomOut.classed(opt.classPrefix + 'clickable',isZoomed);
+              zoomIn.classed(opt.classPrefix + 'clickable', !isMaxZoom);
             }
 
-            svg.selectAll('.'+opt.classPrefix + 'fadable').classed(opt.classPrefix + 'faded', isZoomed);
+            // indicate that the ocean is clickable
+            if (opt.zoomResetOnOceanClick) {
+              rect.classed(opt.classPrefix + 'clickable', isZoomed);
+            }
 
-            // toggle zoomevent on background rectangle
-            if(zoomLevel > 3) { // TODO: Option: ShowLabelsZoomThreshold
-              showLabels();
-            } else {
-              hideLabels();
+            // close tool tip when zoomed all the way out
+            if(!isZoomed && (!d3.event.sourceEvent || d3.event.sourceEvent.srcElement.id !== 'RUS')) { // TODO: fails on russia
+              map.selection.select('.'+opt.classPrefix + 'tooltip').classed(opt.classPrefix + 'hidden', true);
+            }
+
+            // if showLabels is a threshold value
+            if (opt.showLabels && opt.showLabels > 1) {
+              if (zoomLevel > opt.showLabels) {
+                showLabels();
+              } else {
+                hideLabels();
+              }
             }
 
             // console.log(d3.event.type + ' zoom');
@@ -463,12 +485,9 @@
           }
 
           function resetZoom() {
-
             active.classed(opt.classPrefix + 'active', false);
             active = d3.select(null);
-
-            svg.transition().duration(750)
-               .call(zoom.transform, d3.zoomIdentity);
+            svg.transition().duration(750).call(zoom.transform, d3.zoomIdentity);
           }
 
 
@@ -476,10 +495,10 @@
           Labels
           /*************************************** */
 
-          // TODO
-          // if(showLabel & showLabelZoomThreshold < 1) {
-          // showLabels();
-          // }
+          // Display labels if ture and not set to a zoom threshold
+          if(opt.showLabels && opt.showLabels < 2) {
+            showLabels();
+          }
 
           //TODO: Option: showLabel('name') // d.properties
           function showLabels() {
@@ -534,44 +553,46 @@
           Map Controls (zoom-button)
           /*************************************** */
 
-          var controls = svg.append('g').classed(opt.classPrefix + 'zoom-controls', true);
-          var controlColor = opt.accentColor;
+          if(opt.zoomControls) {
+            var controls = svg.append('g').classed(opt.classPrefix + 'zoom-controls', true);
+            var controlColor = opt.accentColor;
 
-          var controlItems = controls.selectAll('.'+opt.classPrefix+'zoom-control')
-            .data(['zoom_in', 'zoom_out'])
-            .enter()
-            .append('g')
-            .attr('class', function(d, i) {
-              return opt.classPrefix + 'zoom-control ' + (i ? opt.classPrefix + 'zoom-control--out' : opt.classPrefix + 'zoom-control--in d3x5_clickable');
-            })
-            .style('transform', function(d, i){
-              return 'translateX(' + (30 + 60*i) + 'px) translateY(' + 30 + 'px)';
-            })
-            .style('font-size', '3em')
-            .style('font-weight', 'bold')
-          ;
+            var controlItems = controls.selectAll('.'+opt.classPrefix+'zoom-control')
+              .data(['zoom_in', 'zoom_out'])
+              .enter()
+              .append('g')
+              .attr('class', function(d, i) {
+                return opt.classPrefix + 'zoom-control ' + (i ? opt.classPrefix + 'zoom-control--out' : opt.classPrefix + 'zoom-control--in d3x5_clickable');
+              })
+              .style('transform', function(d, i){
+                return 'translateX(' + (30 + 60*i) + 'px) translateY(' + 30 + 'px)';
+              })
+              .style('font-size', '3em')
+              .style('font-weight', 'bold')
+            ;
 
-          controlItems.append('text')
-            .style('fill', controlColor)
-            .attr('y', 23)
-            .attr('x', 25)
-            .attr('text-anchor','middle')
-            .attr('dy', '.35em')
-            .text(function(d,i){ return i ? '-' : '+';});
+            controlItems.append('text')
+              .style('fill', controlColor)
+              .attr('y', 23)
+              .attr('x', 25)
+              .attr('text-anchor','middle')
+              .attr('dy', '.35em')
+              .text(function(d,i){ return i ? '-' : '+';});
 
-          controlItems.append('rect')
-            .attr('id', function(d){return d;})
-            .attr('width', 50)
-            .attr('height', 50)
-            .style('fill', controlColor)
-            .style('fill-opacity', 0)
-            .style('stroke', controlColor)
-            .style('stroke-width', '2px')
-            .on('click', function(d) {
-              var factor = (d === 'zoom_in') ? 2 : 1/2
-                , selection = map.selection.select('svg').transition().duration(350);
-              zoom.scaleBy(selection, factor);
-            });
+            controlItems.append('rect')
+              .attr('id', function(d){return d;})
+              .attr('width', 50)
+              .attr('height', 50)
+              .style('fill', controlColor)
+              .style('fill-opacity', 0)
+              .style('stroke', controlColor)
+              .style('stroke-width', '2px')
+              .on('click', function(d) {
+                var factor = (d === 'zoom_in') ? 2 : 1/2
+                  , selection = map.selection.select('svg').transition().duration(350);
+                zoom.scaleBy(selection, factor);
+              });
+          }
 
 
 
@@ -619,7 +640,7 @@
 
             scale = Math.max(opt.zoomMin, Math.min(opt.zoomMax, opt.zoomMin / Math.max(dx / width, dy / height)));
 
-            // since Russia is so huge, we increase the zoom and shift tha panning a bit to get a better effect.
+            // since Russia is so huge, we increase the zoom and shift the panning a bit to get a better effect.
             if(d.id === 'RUS') {
               scale = scale * 2;
               x = x * 1.3;
@@ -635,7 +656,6 @@
             if(map.options.showToolTipOn == 'click') {
               map.showToolTip(d, this, 'fixed');
             }
-
 
           }
         });
@@ -877,8 +897,10 @@
           }
 
           if(this.options.projectionFit) {
-              // left and top margin = 20. TODO, move top options
-              projection.fitExtent([[this.options.margin, this.options.margin], [width-this.options.margin, height-this.options.margin]], topojson.feature(this.options.geoData, {type: 'GeometryCollection', geometries: this.options.geoData.objects.countries.geometries } ));
+              var object = topojson.feature(this.options.geoData, {type: 'GeometryCollection', geometries: this.options.geoData.objects.countries.geometries });
+              projection.fitExtent([[this.options.margin, this.options.margin], [width-this.options.margin, height-this.options.margin]], object);
+              // projection.fitSize([width, height], object);
+
           } else {
               projection
                 .scale(150 * scale)
@@ -995,7 +1017,7 @@
         return arguments.length ? (this.options.borderColor = value, this) : this.options.borderColor;
       },
 
-      // scales. TODO Rename ?
+      // TODO: Rename to colorScale and textureScale ?
       color: function(value) {
         return arguments.length ? (this.options.color = value, this) : this.options.color;
       },
@@ -1009,13 +1031,24 @@
       zoomMax: function(value) {
         return arguments.length ? (this.options.zoomMax = value, this) : this.options.zoomMax;
       },
-
+      zoomControls: function(value) {
+        return arguments.length ? (this.options.zoomControls = value, this) : this.options.zoomControls;
+      },
+      zoomGestures: function(value) {
+        return arguments.length ? (this.options.zoomGestures = value, this) : this.options.zoomGestures;
+      },
+      zoomResetOnOceanClick: function(value) {
+        return arguments.length ? (this.options.zoomResetOnOceanClick = value, this) : this.options.zoomResetOnOceanClick;
+      },
 
       responsive: function(value) {
         return arguments.length ? (this.options.responsive = value, this) : this.options.responsive;
       },
       projection: function(value) {
         return arguments.length ? (this.options.projection = value, this) : this.options.projection;
+      },
+      projectionFit: function(value) {
+        return arguments.length ? (this.options.projectionFit = value, this) : this.options.projectionFit;
       },
       graticule: function(value) {
         return arguments.length ? (this.options.graticule = value, this) : this.options.graticule;
@@ -1024,6 +1057,9 @@
         return arguments.length ? (this.options.countryIsoCodeMap = value, this) : this.options.countryIsoCodeMap;
       },
 
+      showLabels: function(value) {
+        return arguments.length ? (this.options.showLabels = value, this) : this.options.showLabels;
+      },
       higlightOnHover: function(value) {
         return arguments.length ? (this.options.higlightOnHover = value, this) : this.options.higlightOnHover;
       },
