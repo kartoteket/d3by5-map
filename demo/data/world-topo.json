@@ -206,17 +206,6 @@
                 }
             },
             {
-                "type" : null,
-                "id" : 12,
-                "properties" : {
-                    "name" : "Australia",
-                    "countryCode" : "AU",
-                    "capital" : "Canberra",
-                    "lat" : "-35.266666666666666",
-                    "lon" : "149.13333333333333"
-                }
-            },
-            {
                 "type" : "MultiPolygon",
                 "arcs" : [
                     [
@@ -612,17 +601,6 @@
                     "capital" : "Sarajevo",
                     "lat" : "43.86666666666667",
                     "lon" : "18.416666666666668"
-                }
-            },
-            {
-                "type" : null,
-                "id" : 27,
-                "properties" : {
-                    "name" : "Saint Barthélemy",
-                    "countryCode" : "BL",
-                    "capital" : "Gustavia",
-                    "lat" : "17.883333333333333",
-                    "lon" : "-62.85"
                 }
             },
             {
@@ -4727,17 +4705,6 @@
                     "capital" : "Kathmandu",
                     "lat" : "27.716666666666665",
                     "lon" : "85.31666666666666"
-                }
-            },
-            {
-                "type" : null,
-                "id" : 166,
-                "properties" : {
-                    "name" : "Nauru",
-                    "countryCode" : "NR",
-                    "capital" : "Yaren",
-                    "lat" : "-0.5477",
-                    "lon" : "166.920867"
                 }
             },
             {
