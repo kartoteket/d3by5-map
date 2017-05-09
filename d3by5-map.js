@@ -1,9 +1,9 @@
 /* jshint laxcomma: true, quotmark: single */
 (function (root, factory) {
     if (typeof define === 'function' && define.amd) {
-        define(['lodash', 'd3', 'd3-geo-projection', 'topojson', 'textures', 'iso3166-1'], factory);
+        define(['lodash', 'd3', 'd3-geo-projection', 'topojson', 'textures', 'iso-3166-1'], factory);
     } else if (typeof module === 'object' && module.exports) {
-        module.exports = factory(require('lodash'), require('d3'), require('d3-geo-projection'), require('topojson'), require('textures'), require('iso3166-1'));
+        module.exports = factory(require('lodash'), require('d3'), require('d3-geo-projection'), require('topojson'), require('textures'), require('iso-3166-1'));
     } else {
         root.Map = factory(root._, root.d3, root.geoProjection, root.topojson, root.textures, root.iso3166);
     }
@@ -48,12 +48,12 @@
         graticule: false,            // graticules: a uniform grid of meridians and parallels for showing projection distortion
         projectionFit: true,         // tries to fit the map inside container. Todo: rename ??
 
-        countryIsoCodeMap : null,    // If the topojson does not store the ISO code in  "geometries.id", use this to map the correct attribute (uses dot notation, eg "properties.countryCode")
+        countryIsoCodeMap : 'properties.countryCode',    // If the topojson does not store the ISO code in  "geometries.id", use this to map the correct attribute (uses dot notation, eg "properties.countryCode")
 
         color: null,
         texture: null,
-        colorKey: 'properties.fillColorMapKey',
-        textureKey: 'properties.texturesMapKey',
+        colorKey: null,
+        textureKey: null,
 
         showLabels: 0,                // Bboolean or integer] false/0 = off, true/1 = on, 2 - 20 = zoomLevelTreshold
         higlightOnHover: false,       // higlight country (or group of countries) on hover
@@ -177,7 +177,7 @@
           countries = topojson.feature(opt.geoData, opt.geoData.objects.countries).features;
           neighbors = topojson.neighbors(opt.geoData.objects.countries.geometries);
 
-          // mapping iso country code.
+          // mapping iso country code in geoData (topojson).
           if(opt.countryIsoCodeMap) {
             var countryIsoCodeMap = opt.countryIsoCodeMap.split('.');
             countries.forEach( function (d) {
@@ -185,22 +185,69 @@
                 for (var i=0; i<countryIsoCodeMap.length; i++){
                   id = id ? id[countryIsoCodeMap[i]] : d[countryIsoCodeMap[i]];
                 }
-                d.id = iso3166.to3(id) || d.id;
+                if (id) {
+                  d.id = iso3166.whereAlpha2(id).alpha2 || iso3166.whereAlpha3(id).alpha2 || d.id;
+                }
             });
+
+            // Parse data (move this somwhere probably)
+            // Need to define a set schema.
+
+            // 1) look for a countryCode or countryName
+            if (data.columns) { //d3.csv() exposes a coumns property
+              var notFound = [];
+              var keys = [_.last(countryIsoCodeMap, 1), 'id', 'countrycode', 'countryCode', 'country', 'Country', 'countryName', 'countryname'];
+              var key = data.columns.find(function(d) {
+                return keys.includes(d);
+              });
+
+              if ( key ) {
+
+                data.countries = {};
+                data.forEach( function (d) {
+                  var id = d[key];
+                  var country = null;
+                  if(id) {
+                    country = iso3166.whereAlpha2(id) || iso3166.whereAlpha3(id) || iso3166.whereNumeric(id) || iso3166.whereCountry(id);
+                  }
+                  if (country) {
+                    data.countries[country.alpha3] = d;
+                  } else {
+                    notFound.push(id);
+                  }
+                });
+              }
+
+              if (notFound.length) {
+                console.log('Warning! Not found: ' + notFound.join(', '));
+              }
+            }
+
+
+            // if (_.isArray(data) && _.has(data[0],_.last(countryIsoCodeMap, 1))) {
+            //   data.forEach( function (d) {
+            //     d[_.last(countryIsoCodeMap, 1)] = iso3166.from(d.Country).to3();
+            //   });
+            //   console.log( data[1]);
+            // }
+
           }
 
           // extend countries properties with custom data
           // TODO. Ad hoc for now, currently just assumes that the data has a country alph3 id as key...
           countries.forEach( function (c) {
-              var id = c.id;
+            var country = iso3166.whereAlpha2(c.id.toString());
+            if (country) {
+              var id = country.alpha3; // tmp ad hoc alpha3 conversion
               if(_.has(data.countries, id)) {
                 _.assign(c.properties, data.countries[id]);
               }
+            }
           });
 
           // Colors
           // Sett scale defaults. Ordinal scales must be explicit and determined
-          if(opt.color) {
+          if(opt.color && typeof opt.color.unknown === 'function') {
             opt.color.unknown(opt.baseColor);
           }
 
@@ -208,7 +255,7 @@
           // here we loop countries and check for any keys that map to colors. Defaults to country ID.
           // The keys are stored in a country colorKey property (array) and used as domain input in the defined color scale
           // We also test for multiple colors, so that we can use textures if needed.
-          if(opt.colorKey) {
+          if(opt.color && opt.colorKey) {
 
             var colorKey = opt.colorKey.split('.');
             countries.forEach( function (d) {
@@ -216,7 +263,7 @@
                 for (var i = 0; i < colorKey.length; i++){
                   key = key ? key[colorKey[i]] : d[colorKey[i]];
                 }
-                d.colorKey = key || d.id;
+                d.colorKey = key || d.id; // Defaults to country ID
 
                 // typecast to array
                 d.colorKey = Array.isArray(d.colorKey) ? d.colorKey : [d.colorKey];
@@ -240,7 +287,6 @@
                 d.textureKey = id || null;
             });
           }
-
 
           // start wrting to the dom
           dom = d3.select(this);
@@ -292,11 +338,11 @@
               _.forEach(fillTextures, function(t) {
                 _.forEach(t, function(tc) {
                   if(_.isFunction(tc)) {
-                   svg.call(tc);
+                   svg.call(tc); // pattern textures
                   } else {
                     _.forEach(tc, function(cc) {
                       if(_.isFunction(cc)) {
-                       svg.call(cc);
+                       svg.call(cc); //color textures
                       }
                     });
                   }
@@ -346,14 +392,19 @@
               .attr('class', function(d) {
                 return opt.classPrefix + 'country ' + _.join(d.properties.groups, ' ');
               })
-              .style('fill', function(d, i) {
-
-                // TODO move all this to a setFill()-function ??!?
+              .style('fill', function(d, i) { // TODO move all this to a setFill()-function ??!?
 
                 // default fill with base color
                 var fill = opt.baseColor;
 
-                if(data.countries[d.id]) {
+                // get country
+                var country = iso3166.whereAlpha2(d.id.toString()); // probably best to fork this and make sure it can:
+                                                                    // typecast strings and
+                                                                    // return undefined
+                                                                    // look up more fuzzy (st/Saints, &/and, short forms)
+                var id = country ? country.alpha3 : null;           // tmp ad hoc alpha3 conversion
+
+                if(opt.color && data.countries[id]) { // ad hoc force alpha3. TOOD: Test for this
                   fill = opt.color(d.colorKey[0]);
 
                   // multiple colors, use textures
@@ -367,7 +418,6 @@
                         fill = fill2;
                       }
                   }
-
                   else if(fillTextures && opt.texture(d.textureKey)) {
                       fill = fillTextures[opt.texture(d.textureKey)][fill].url();
                   }
@@ -1023,6 +1073,12 @@
       },
       texture: function(value) {
         return arguments.length ? (this.options.texture = value, this) : this.options.texture;
+      },
+      colorKey: function(value) {
+        return arguments.length ? (this.options.colorKey = value, this) : this.options.colorKey;
+      },
+      textureKey: function(value) {
+        return arguments.length ? (this.options.textureKey = value, this) : this.options.textureKey;
       },
 
       zoomMin: function(value) {
