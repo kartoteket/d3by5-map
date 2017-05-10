@@ -1,0 +1,118 @@
+@import "../../node_modules/bulma/sass/utilities/initial-variables";
+// override variables here...
+@import "../../node_modules/bulma/sass/utilities/_all";
+@import "../../node_modules/bulma/sass/base/generic";
+@import "../../node_modules/bulma/sass/base/helpers";
+@import "../../node_modules/bulma/sass/grid/columns";
+@import "../..//node_modules/bulma/sass/layout/section";
+@import "../..//node_modules/bulma/sass/layout/footer";
+
+
+/**
+ * prism style overrides
+ */
+code[class*="language-"] {
+  padding: 0;
+}
+pre[class*="language-"] {
+  padding-top: 0;
+}
+
+
+/**
+ * MAP STYLES
+ */
+$prefix : 'd3x5_';
+
+.#{$prefix}hidden {
+  opacity: 0;
+  display: none;
+}
+
+.#{$prefix}clickable {
+    &:hover {
+        cursor: pointer;
+    }
+}
+
+
+/**
+ * Tooltip
+ */
+.#{$prefix}tooltip {
+    position: absolute;
+    color: #fff;
+    border: 2px solid rgba(255,255,255,.9);
+    background-color: rgba(157, 191, 177, 1);
+    z-index: 2;
+}
+
+.#{$prefix}tooltip__close {
+  position: absolute;
+  top: 1px;
+  right: 1px;
+  border-bottom: 0;
+}
+.#{$prefix}tooltip__close:hover {
+  border-bottom: 0;
+}
+
+.#{$prefix}tooltip__header {
+  margin: 0 0 0;
+  padding: 10px 30px 10px 10px;
+  // color: #9DBFB1;
+  // background-color: rgba(255,255,255,.9);
+  font-size: 1rem;
+  text-transform: uppercase;
+}
+
+.#{$prefix}tooltip__content > h4  {
+  display: inline-block;
+  margin: 5px 0;
+  padding: 0 5px 3px 10px;
+}
+
+.#{$prefix}tooltip__content > ul  {
+  margin: 10px 10px 10px 0;
+  padding-left: 30px;
+}
+
+.#{$prefix}tooltip  a:hover  {
+  cursor: pointer;
+}
+
+
+/**
+ * d3by5 Map Features
+ */
+.#{$prefix}graticule {
+  fill: none;
+  stroke: #777;
+  stroke-width: .5px;
+  stroke-opacity: .5;
+}
+
+.#{$prefix}label {
+  pointer-events: none;
+}
+
+.#{$prefix}zoom-controls {
+  display: none;
+}
+
+@media all and (min-width: 740px) {
+
+  .#{$prefix}zoom-controls {
+    display: inline-block;
+  }
+
+  .#{$prefix}zoom-control {
+    opacity: .2
+  }
+  .#{$prefix}zoom-control.#{$prefix}clickable {
+    opacity: .85
+  }
+  .#{$prefix}zoom-control.#{$prefix}clickable:hover {
+    opacity: 1
+  }
+}

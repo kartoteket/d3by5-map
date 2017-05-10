@@ -1,0 +1,1056 @@
+{
+  "countries": {
+    "ALB": {
+      "groups": [
+        "patenter-planter-dyr",
+        "patenter-medisin",
+        "efta"
+      ],
+      "fillColorMapKey": [
+        "efta"
+      ],
+      "texturesMapKey": ""
+    },
+    "BIH": {
+      "groups": [
+        "patenter-planter-dyr",
+        "patenter-medisin",
+        "efta"
+      ],
+      "fillColorMapKey": [
+        "efta"
+      ],
+      "texturesMapKey": ""
+    },
+    "CHL": {
+      "groups": [
+        "patenter-planter-dyr",
+        "patenter-medisin",
+        "isds",
+        "efta",
+        "bits"
+      ],
+      "fillColorMapKey": [
+        "efta",
+        "bits"
+      ],
+      "texturesMapKey": "efta"
+    },
+    "COL": {
+      "groups": [
+        "patenter-planter-dyr",
+        "patenter-medisin",
+        "efta"
+      ],
+      "fillColorMapKey": [
+        "efta"
+      ],
+      "texturesMapKey": "efta"
+    },
+    "CRI": {
+      "groups": [
+        "patenter-planter-dyr",
+        "patenter-medisin",
+        "efta"
+      ],
+      "fillColorMapKey": [
+        "efta"
+      ],
+      "texturesMapKey": "efta"
+    },
+    "EGY": {
+      "groups": [
+        "patenter-planter-dyr",
+        "patenter-medisin",
+        "efta"
+      ],
+      "fillColorMapKey": [
+        "efta"
+      ],
+      "texturesMapKey": "efta"
+    },
+    "GEO": {
+      "groups": [
+        "patenter-planter-dyr",
+        "patenter-medisin",
+        "efta"
+      ],
+      "fillColorMapKey": [
+        "efta"
+      ],
+      "texturesMapKey": "efta"
+    },
+    "GTM": {
+      "groups": [
+        "patenter-planter-dyr",
+        "patenter-medisin",
+        "efta"
+      ],
+      "fillColorMapKey": [
+        "efta"
+      ],
+      "texturesMapKey": "bits"
+    },
+    "HKG": {
+      "groups": [
+        "patenter-planter-dyr",
+        "patenter-medisin",
+        "efta"
+      ],
+      "fillColorMapKey": [
+        "efta"
+      ],
+      "texturesMapKey": "bits"
+    },
+    "JOR": {
+      "groups": [
+        "patenter-planter-dyr",
+        "patenter-medisin",
+        "efta"
+      ],
+      "fillColorMapKey": [
+        "efta"
+      ],
+      "texturesMapKey": "bits"
+    },
+    "LBN": {
+      "groups": [
+        "patenter-planter-dyr",
+        "patenter-medisin",
+        "efta"
+      ],
+      "fillColorMapKey": [
+        "efta"
+      ],
+      "texturesMapKey": "efta"
+    },
+    "MKD": {
+      "groups": [
+        "patenter-planter-dyr",
+        "patenter-medisin",
+        "efta"
+      ],
+      "fillColorMapKey": [
+        "efta"
+      ],
+      "texturesMapKey": "efta"
+    },
+    "MEX": {
+      "groups": [
+        "patenter-planter-dyr",
+        "efta"
+      ],
+      "fillColorMapKey": [
+        "efta"
+      ],
+      "texturesMapKey": "efta"
+    },
+    "MNE": {
+      "groups": [
+        "patenter-planter-dyr",
+        "patenter-medisin",
+        "efta"
+      ],
+      "fillColorMapKey": [
+        "efta"
+      ],
+      "texturesMapKey": "efta"
+    },
+    "MAR": {
+      "groups": [
+        "patenter-planter-dyr",
+        "patenter-medisin",
+        "efta"
+      ],
+      "fillColorMapKey": [
+        "efta"
+      ],
+      "texturesMapKey": "efta"
+    },
+    "PSE": {
+      "groups": [
+        "patenter-planter-dyr",
+        "patenter-medisin",
+        "efta"
+      ],
+      "fillColorMapKey": [
+        "efta"
+      ],
+      "texturesMapKey": "efta"
+    },
+    "PAN": {
+      "groups": [
+        "patenter-planter-dyr",
+        "patenter-medisin",
+        "efta"
+      ],
+      "fillColorMapKey": [
+        "efta"
+      ],
+      "texturesMapKey": "efta"
+    },
+    "PER": {
+      "groups": [
+        "patenter-planter-dyr",
+        "patenter-medisin",
+        "isds",
+        "efta",
+        "bits"
+      ],
+      "fillColorMapKey": [
+        "efta",
+        "bits"
+      ],
+      "texturesMapKey": "efta"
+    },
+    "PHL": {
+      "groups": [
+        "patenter-planter-dyr",
+        "patenter-medisin",
+        "efta"
+      ],
+      "fillColorMapKey": [
+        "efta"
+      ],
+      "texturesMapKey": "efta"
+    },
+    "SRB": {
+      "groups": [
+        "patenter-planter-dyr",
+        "patenter-medisin",
+        "efta"
+      ],
+      "fillColorMapKey": [
+        "efta"
+      ],
+      "texturesMapKey": "efta"
+    },
+    "TUN": {
+      "groups": [
+        "patenter-planter-dyr",
+        "patenter-medisin",
+        "efta"
+      ],
+      "fillColorMapKey": [
+        "efta"
+      ],
+      "texturesMapKey": "efta"
+    },
+    "TUR": {
+      "groups": [
+        "patenter-planter-dyr",
+        "efta"
+      ],
+      "fillColorMapKey": [
+        "efta"
+      ],
+      "texturesMapKey": "efta"
+    },
+    "UKR": {
+      "groups": [
+        "patenter-planter-dyr",
+        "patenter-medisin",
+        "efta"
+      ],
+      "fillColorMapKey": [
+        "efta"
+      ],
+      "texturesMapKey": "efta"
+    },
+    "KOR": {
+      "groups": [
+        "patenter-medisin",
+        "efta"
+      ],
+      "fillColorMapKey": [
+        "efta"
+      ],
+      "texturesMapKey": "efta"
+    },
+    "SGP": {
+      "groups": [
+        "patenter-medisin",
+        "isds",
+        "efta"
+      ],
+      "fillColorMapKey": [
+        "efta"
+      ],
+      "texturesMapKey": "efta"
+    },
+    "CHN": {
+      "groups": [
+        "isds",
+        "bits"
+      ],
+      "fillColorMapKey": [
+        "bits"
+      ],
+      "texturesMapKey": "efta"
+    },
+    "CZE": {
+      "groups": [
+        "isds",
+        "bits"
+      ],
+      "fillColorMapKey": [
+        "bits"
+      ],
+      "texturesMapKey": "efta"
+    },
+    "EST": {
+      "groups": [
+        "isds",
+        "bits"
+      ],
+      "fillColorMapKey": [
+        "bits"
+      ],
+      "texturesMapKey": "efta"
+    },
+    "HUN": {
+      "groups": [
+        "isds",
+        "bits"
+      ],
+      "fillColorMapKey": [
+        "bits"
+      ],
+      "texturesMapKey": "efta"
+    },
+    "LVA": {
+      "groups": [
+        "isds",
+        "bits"
+      ],
+      "fillColorMapKey": [
+        "bits"
+      ],
+      "texturesMapKey": "efta"
+    },
+    "LTU": {
+      "groups": [
+        "isds",
+        "bits"
+      ],
+      "fillColorMapKey": [
+        "bits"
+      ],
+      "texturesMapKey": "efta"
+    },
+    "POL": {
+      "groups": [
+        "isds",
+        "bits"
+      ],
+      "fillColorMapKey": [
+        "bits"
+      ],
+      "texturesMapKey": "efta"
+    },
+    "ROU": {
+      "groups": [
+        "isds",
+        "bits"
+      ],
+      "fillColorMapKey": [
+        "bits"
+      ],
+      "texturesMapKey": "efta"
+    },
+    "RUS": {
+      "groups": [
+        "isds",
+        "bits"
+      ],
+      "fillColorMapKey": [
+        "bits"
+      ],
+      "texturesMapKey": "bits"
+    },
+    "SVK": {
+      "groups": [
+        "isds",
+        "bits"
+      ],
+      "fillColorMapKey": [
+        "bits"
+      ],
+      "texturesMapKey": "efta"
+    },
+    "LKA": {
+      "groups": [
+        "isds",
+        "bits"
+      ],
+      "fillColorMapKey": [
+        "bits"
+      ],
+      "texturesMapKey": "efta"
+    },
+    "FRO": {
+      "groups": [
+        "bilaterale-handelsavtaler"
+      ],
+      "fillColorMapKey": [
+        "bilaterale-handelsavtaler"
+      ],
+      "texturesMapKey": "efta"
+    },
+    "GRL": {
+      "groups": [
+        "bilaterale-handelsavtaler"
+      ],
+      "fillColorMapKey": [
+        "bilaterale-handelsavtaler"
+      ],
+      "texturesMapKey": "efta"
+    },
+    "BHR": {
+      "groups": [
+        "efta"
+      ],
+      "fillColorMapKey": [
+        "efta"
+      ],
+      "texturesMapKey": "efta"
+    },
+    "BWA": {
+      "groups": [
+        "efta"
+      ],
+      "fillColorMapKey": [
+        "efta"
+      ],
+      "texturesMapKey": "efta"
+    },
+    "CAN": {
+      "groups": [
+        "efta"
+      ],
+      "fillColorMapKey": [
+        "efta"
+      ]
+    },
+    "ISR": {
+      "groups": [
+        "efta"
+      ],
+      "fillColorMapKey": [
+        "efta"
+      ],
+      "texturesMapKey": "efta"
+    },
+    "KWT": {
+      "groups": [
+        "efta"
+      ],
+      "fillColorMapKey": [
+        "efta"
+      ],
+      "texturesMapKey": "efta"
+    },
+    "LSO": {
+      "groups": [
+        "efta"
+      ],
+      "fillColorMapKey": [
+        "efta"
+      ],
+      "texturesMapKey": "efta"
+    },
+    "NAM": {
+      "groups": [
+        "efta"
+      ],
+      "fillColorMapKey": [
+        "efta"
+      ],
+      "texturesMapKey": "efta"
+    },
+    "NOR": {
+      "groups": [
+        "efta",
+        "bits"
+      ]
+    },
+    "OMN": {
+      "groups": [
+        "efta"
+      ],
+      "fillColorMapKey": [
+        "efta"
+      ],
+      "texturesMapKey": "efta"
+    },
+    "QAT": {
+      "groups": [
+        "efta"
+      ],
+      "fillColorMapKey": [
+        "efta"
+      ],
+      "texturesMapKey": ""
+    },
+    "SAU": {
+      "groups": [
+        "efta"
+      ],
+      "fillColorMapKey": [
+        "efta"
+      ],
+      "texturesMapKey": ""
+    },
+    "ZAF": {
+      "groups": [
+        "efta"
+      ],
+      "fillColorMapKey": [
+        "efta"
+      ],
+      "texturesMapKey": ""
+    },
+    "SWZ": {
+      "groups": [
+        "efta"
+      ],
+      "fillColorMapKey": [
+        "efta"
+      ],
+      "texturesMapKey": ""
+    },
+    "ARE": {
+      "groups": [
+        "efta"
+      ],
+      "fillColorMapKey": [
+        "efta"
+      ],
+      "texturesMapKey": ""
+    },
+    "MDG": {
+      "groups": [
+        "bits"
+      ],
+      "fillColorMapKey": [
+        "bits"
+      ],
+      "texturesMapKey": ""
+    }
+  },
+  "groups": {
+    "patenter-planter-dyr": {
+      "name": "patenter-planter-dyr",
+      "longName": "Patenter på frø",
+      "type": "instrument",
+      "countries": [
+        {
+          "id": "ALB",
+          "name": "Albania"
+        },
+        {
+          "id": "BIH",
+          "name": "Bosnia and Herzergovina"
+        },
+        {
+          "id": "CHL",
+          "name": "Chile"
+        },
+        {
+          "id": "COL",
+          "name": "Colombia"
+        },
+        {
+          "id": "CRI",
+          "name": "Costa Rica"
+        },
+        {
+          "id": "EGY",
+          "name": "Egypt"
+        },
+        {
+          "id": "GEO",
+          "name": "Georgia"
+        },
+        {
+          "id": "GTM",
+          "name": "Guatemala"
+        },
+        {
+          "id": "HKG",
+          "name": "Hong Kong"
+        },
+        {
+          "id": "JOR",
+          "name": "Jordan"
+        },
+        {
+          "id": "LBN",
+          "name": "Lebanon"
+        },
+        {
+          "id": "MKD",
+          "name": "Macedonia"
+        },
+        {
+          "id": "MEX",
+          "name": "Mexico"
+        },
+        {
+          "id": "MNE",
+          "name": "Montenegro"
+        },
+        {
+          "id": "MAR",
+          "name": "Morocco"
+        },
+        {
+          "id": "PSE",
+          "name": "Palestinian territories"
+        },
+        {
+          "id": "PAN",
+          "name": "Panama"
+        },
+        {
+          "id": "PER",
+          "name": "Peru"
+        },
+        {
+          "id": "PHL",
+          "name": "Philippines"
+        },
+        {
+          "id": "SRB",
+          "name": "Serbia"
+        },
+        {
+          "id": "TUN",
+          "name": "Tunisia"
+        },
+        {
+          "id": "TUR",
+          "name": "Turkey"
+        },
+        {
+          "id": "UKR",
+          "name": "Ukraine"
+        }
+      ]
+    },
+    "patenter-medisin": {
+      "name": "patenter-medisin",
+      "longName": "Patenter på medisin",
+      "type": "instrument",
+      "countries": [
+        {
+          "id": "ALB",
+          "name": "Albania"
+        },
+        {
+          "id": "BIH",
+          "name": "Bosnia and Herzergovina"
+        },
+        {
+          "id": "CHL",
+          "name": "Chile"
+        },
+        {
+          "id": "COL",
+          "name": "Colombia"
+        },
+        {
+          "id": "CRI",
+          "name": "Costa Rica"
+        },
+        {
+          "id": "EGY",
+          "name": "Egypt"
+        },
+        {
+          "id": "GEO",
+          "name": "Georgia"
+        },
+        {
+          "id": "GTM",
+          "name": "Guatemala"
+        },
+        {
+          "id": "HKG",
+          "name": "Hong Kong"
+        },
+        {
+          "id": "JOR",
+          "name": "Jordan"
+        },
+        {
+          "id": "KOR",
+          "name": "Korea (South)"
+        },
+        {
+          "id": "LBN",
+          "name": "Lebanon"
+        },
+        {
+          "id": "MKD",
+          "name": "Macedonia"
+        },
+        {
+          "id": "MNE",
+          "name": "Montenegro"
+        },
+        {
+          "id": "MAR",
+          "name": "Morocco"
+        },
+        {
+          "id": "PSE",
+          "name": "Palestinian territories"
+        },
+        {
+          "id": "PAN",
+          "name": "Panama"
+        },
+        {
+          "id": "PER",
+          "name": "Peru"
+        },
+        {
+          "id": "PHL",
+          "name": "Philippines"
+        },
+        {
+          "id": "SRB",
+          "name": "Serbia"
+        },
+        {
+          "id": "SGP",
+          "name": "Singapore"
+        },
+        {
+          "id": "TUN",
+          "name": "Tunisia"
+        },
+        {
+          "id": "UKR",
+          "name": "Ukraine"
+        }
+      ]
+    },
+    "isds": {
+      "name": "isds",
+      "longName": "Investor-stat tvisteløsning (ISDS)",
+      "type": "instrument",
+      "countries": [
+        {
+          "id": "CHL",
+          "name": "Chile"
+        },
+        {
+          "id": "CHN",
+          "name": "China"
+        },
+        {
+          "id": "CZE",
+          "name": "Czech Republic"
+        },
+        {
+          "id": "EST",
+          "name": "Estonia"
+        },
+        {
+          "id": "HUN",
+          "name": "Hungary"
+        },
+        {
+          "id": "LVA",
+          "name": "Latvia"
+        },
+        {
+          "id": "LTU",
+          "name": "Lithuania"
+        },
+        {
+          "id": "PER",
+          "name": "Peru"
+        },
+        {
+          "id": "POL",
+          "name": "Poland"
+        },
+        {
+          "id": "ROU",
+          "name": "Romania"
+        },
+        {
+          "id": "RUS",
+          "name": "Russian Federation"
+        },
+        {
+          "id": "SGP",
+          "name": "Singapore"
+        },
+        {
+          "id": "SVK",
+          "name": "Slovak Republic"
+        },
+        {
+          "id": "LKA",
+          "name": "Sri Lanka"
+        }
+      ]
+    },
+    "bilaterale-handelsavtaler": {
+      "name": "bilaterale-handelsavtaler",
+      "longName": "Bilaterale handelsavtaler",
+      "type": "treatise",
+      "countries": [
+        {
+          "id": "FRO",
+          "name": "Faroe Islands"
+        },
+        {
+          "id": "GRL",
+          "name": "Greenland"
+        }
+      ]
+    },
+    "efta": {
+      "name": "efta",
+      "longName": "EFTA- avtaler",
+      "type": "treatise",
+      "countries": [
+        {
+          "id": "ALB",
+          "name": "Albania"
+        },
+        {
+          "id": "BHR",
+          "name": "Bahrain"
+        },
+        {
+          "id": "BIH",
+          "name": "Bosnia and Herzergovina"
+        },
+        {
+          "id": "BWA",
+          "name": "Botswana"
+        },
+        {
+          "id": "CAN",
+          "name": "Canada"
+        },
+        {
+          "id": "CHL",
+          "name": "Chile"
+        },
+        {
+          "id": "COL",
+          "name": "Colombia"
+        },
+        {
+          "id": "CRI",
+          "name": "Costa Rica"
+        },
+        {
+          "id": "EGY",
+          "name": "Egypt"
+        },
+        {
+          "id": "GEO",
+          "name": "Georgia"
+        },
+        {
+          "id": "GTM",
+          "name": "Guatemala"
+        },
+        {
+          "id": "HKG",
+          "name": "Hong Kong"
+        },
+        {
+          "id": "ISR",
+          "name": "Israel"
+        },
+        {
+          "id": "JOR",
+          "name": "Jordan"
+        },
+        {
+          "id": "KOR",
+          "name": "Korea (South)"
+        },
+        {
+          "id": "KWT",
+          "name": "Kuwait"
+        },
+        {
+          "id": "LBN",
+          "name": "Lebanon"
+        },
+        {
+          "id": "LSO",
+          "name": "Lesotho"
+        },
+        {
+          "id": "MKD",
+          "name": "Macedonia"
+        },
+        {
+          "id": "MEX",
+          "name": "Mexico"
+        },
+        {
+          "id": "MNE",
+          "name": "Montenegro"
+        },
+        {
+          "id": "MAR",
+          "name": "Morocco"
+        },
+        {
+          "id": "NAM",
+          "name": "Namibia"
+        },
+        {
+          "id": "NOR",
+          "name": "Norway"
+        },
+        {
+          "id": "OMN",
+          "name": "Oman"
+        },
+        {
+          "id": "PSE",
+          "name": "Palestinian territories"
+        },
+        {
+          "id": "PAN",
+          "name": "Panama"
+        },
+        {
+          "id": "PER",
+          "name": "Peru"
+        },
+        {
+          "id": "PHL",
+          "name": "Philippines"
+        },
+        {
+          "id": "QAT",
+          "name": "Qatar"
+        },
+        {
+          "id": "SAU",
+          "name": "Saudi Arabia"
+        },
+        {
+          "id": "SRB",
+          "name": "Serbia"
+        },
+        {
+          "id": "SGP",
+          "name": "Singapore"
+        },
+        {
+          "id": "ZAF",
+          "name": "South Africa"
+        },
+        {
+          "id": "SWZ",
+          "name": "Swaziland"
+        },
+        {
+          "id": "TUN",
+          "name": "Tunisia"
+        },
+        {
+          "id": "TUR",
+          "name": "Turkey"
+        },
+        {
+          "id": "UKR",
+          "name": "Ukraine"
+        },
+        {
+          "id": "ARE",
+          "name": "United Arab Emirates"
+        }
+      ]
+    },
+    "bits": {
+      "name": "bits",
+      "longName": "Investeringsavtaler (BITs)",
+      "type": "treatise",
+      "countries": [
+        {
+          "id": "CHL",
+          "name": "Chile"
+        },
+        {
+          "id": "CHN",
+          "name": "China"
+        },
+        {
+          "id": "CZE",
+          "name": "Czech Republic"
+        },
+        {
+          "id": "EST",
+          "name": "Estonia"
+        },
+        {
+          "id": "HUN",
+          "name": "Hungary"
+        },
+        {
+          "id": "LVA",
+          "name": "Latvia"
+        },
+        {
+          "id": "LTU",
+          "name": "Lithuania"
+        },
+        {
+          "id": "MDG",
+          "name": "Madagascar"
+        },
+        {
+          "id": "NOR",
+          "name": "Norway"
+        },
+        {
+          "id": "PER",
+          "name": "Peru"
+        },
+        {
+          "id": "POL",
+          "name": "Poland"
+        },
+        {
+          "id": "ROU",
+          "name": "Romania"
+        },
+        {
+          "id": "RUS",
+          "name": "Russian Federation"
+        },
+        {
+          "id": "SVK",
+          "name": "Slovak Republic"
+        },
+        {
+          "id": "LKA",
+          "name": "Sri Lanka"
+        }
+      ]
+    }
+  },
+  "subPages": [
+    {
+      "title": "Underside",
+      "url": "http://handelskampanjen.dev/handelskartet/underside",
+      "id": "379"
+    }
+  ]
+}

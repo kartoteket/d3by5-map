@@ -1,0 +1,490 @@
+{
+  "countries": {
+    "ALB": {
+      "groups": [
+        "patenter-planter-dyr",
+        "patenter-medisin",
+        "efta"
+      ],
+      "fillColorMapKey": [
+        "efta"
+      ]
+    },
+    "BIH": {
+      "groups": [
+        "patenter-planter-dyr",
+        "patenter-medisin",
+        "efta"
+      ],
+      "fillColorMapKey": [
+        "efta"
+      ]
+    },
+    "CHL": {
+      "groups": [
+        "patenter-planter-dyr",
+        "patenter-medisin",
+        "isds",
+        "efta",
+        "bits"
+      ],
+      "fillColorMapKey": [
+        "efta",
+        "bits"
+      ]
+    },
+    "COL": {
+      "groups": [
+        "patenter-planter-dyr",
+        "patenter-medisin",
+        "efta"
+      ],
+      "fillColorMapKey": [
+        "efta"
+      ]
+    },
+    "CRI": {
+      "groups": [
+        "patenter-planter-dyr",
+        "patenter-medisin",
+        "efta"
+      ],
+      "fillColorMapKey": [
+        "efta"
+      ]
+    },
+    "EGY": {
+      "groups": [
+        "patenter-planter-dyr",
+        "patenter-medisin",
+        "efta"
+      ],
+      "fillColorMapKey": [
+        "efta"
+      ]
+    },
+    "GEO": {
+      "groups": [
+        "patenter-planter-dyr",
+        "patenter-medisin",
+        "efta"
+      ],
+      "fillColorMapKey": [
+        "efta"
+      ]
+    },
+    "GTM": {
+      "groups": [
+        "patenter-planter-dyr",
+        "patenter-medisin",
+        "efta"
+      ],
+      "fillColorMapKey": [
+        "efta"
+      ]
+    },
+    "HKG": {
+      "groups": [
+        "patenter-planter-dyr",
+        "patenter-medisin",
+        "efta"
+      ],
+      "fillColorMapKey": [
+        "efta"
+      ]
+    },
+    "JOR": {
+      "groups": [
+        "patenter-planter-dyr",
+        "patenter-medisin",
+        "efta"
+      ],
+      "fillColorMapKey": [
+        "efta"
+      ]
+    },
+    "LBN": {
+      "groups": [
+        "patenter-planter-dyr",
+        "patenter-medisin",
+        "efta"
+      ],
+      "fillColorMapKey": [
+        "efta"
+      ]
+    },
+    "MKD": {
+      "groups": [
+        "patenter-planter-dyr",
+        "patenter-medisin",
+        "efta"
+      ],
+      "fillColorMapKey": [
+        "efta"
+      ]
+    },
+    "MEX": {
+      "groups": [
+        "patenter-planter-dyr",
+        "efta"
+      ],
+      "fillColorMapKey": [
+        "efta"
+      ]
+    },
+    "MNE": {
+      "groups": [
+        "patenter-planter-dyr",
+        "patenter-medisin",
+        "efta"
+      ],
+      "fillColorMapKey": [
+        "efta"
+      ]
+    },
+    "MAR": {
+      "groups": [
+        "patenter-planter-dyr",
+        "patenter-medisin",
+        "efta"
+      ],
+      "fillColorMapKey": [
+        "efta"
+      ]
+    },
+    "PSE": {
+      "groups": [
+        "patenter-planter-dyr",
+        "patenter-medisin",
+        "efta"
+      ],
+      "fillColorMapKey": [
+        "efta"
+      ]
+    },
+    "PAN": {
+      "groups": [
+        "patenter-planter-dyr",
+        "patenter-medisin",
+        "efta"
+      ],
+      "fillColorMapKey": [
+        "efta"
+      ]
+    },
+    "PER": {
+      "groups": [
+        "patenter-planter-dyr",
+        "patenter-medisin",
+        "isds",
+        "efta",
+        "bits"
+      ],
+      "fillColorMapKey": [
+        "efta",
+        "bits"
+      ]
+    },
+    "PHL": {
+      "groups": [
+        "patenter-planter-dyr",
+        "patenter-medisin",
+        "efta"
+      ],
+      "fillColorMapKey": [
+        "efta"
+      ]
+    },
+    "SRB": {
+      "groups": [
+        "patenter-planter-dyr",
+        "patenter-medisin",
+        "efta"
+      ],
+      "fillColorMapKey": [
+        "efta"
+      ]
+    },
+    "TUN": {
+      "groups": [
+        "patenter-planter-dyr",
+        "patenter-medisin",
+        "efta"
+      ],
+      "fillColorMapKey": [
+        "efta"
+      ]
+    },
+    "TUR": {
+      "groups": [
+        "patenter-planter-dyr",
+        "efta"
+      ],
+      "fillColorMapKey": [
+        "efta"
+      ]
+    },
+    "UKR": {
+      "groups": [
+        "patenter-planter-dyr",
+        "patenter-medisin",
+        "efta"
+      ],
+      "fillColorMapKey": [
+        "efta"
+      ]
+    },
+    "KOR": {
+      "groups": [
+        "patenter-medisin",
+        "efta"
+      ],
+      "fillColorMapKey": [
+        "efta"
+      ]
+    },
+    "SGP": {
+      "groups": [
+        "patenter-medisin",
+        "isds",
+        "efta"
+      ],
+      "fillColorMapKey": [
+        "efta"
+      ]
+    },
+    "CHN": {
+      "groups": [
+        "isds",
+        "bits"
+      ],
+      "fillColorMapKey": [
+        "bits"
+      ]
+    },
+    "CZE": {
+      "groups": [
+        "isds",
+        "bits"
+      ],
+      "fillColorMapKey": [
+        "bits"
+      ]
+    },
+    "EST": {
+      "groups": [
+        "isds",
+        "bits"
+      ],
+      "fillColorMapKey": [
+        "bits"
+      ]
+    },
+    "HUN": {
+      "groups": [
+        "isds",
+        "bits"
+      ],
+      "fillColorMapKey": [
+        "bits"
+      ]
+    },
+    "LVA": {
+      "groups": [
+        "isds",
+        "bits"
+      ],
+      "fillColorMapKey": [
+        "bits"
+      ]
+    },
+    "LTU": {
+      "groups": [
+        "isds",
+        "bits"
+      ],
+      "fillColorMapKey": [
+        "bits"
+      ]
+    },
+    "POL": {
+      "groups": [
+        "isds",
+        "bits"
+      ],
+      "fillColorMapKey": [
+        "bits"
+      ]
+    },
+    "ROU": {
+      "groups": [
+        "isds",
+        "bits"
+      ],
+      "fillColorMapKey": [
+        "bits"
+      ]
+    },
+    "RUS": {
+      "groups": [
+        "isds",
+        "bits"
+      ],
+      "fillColorMapKey": [
+        "bits"
+      ]
+    },
+    "SVK": {
+      "groups": [
+        "isds",
+        "bits"
+      ],
+      "fillColorMapKey": [
+        "bits"
+      ]
+    },
+    "LKA": {
+      "groups": [
+        "isds",
+        "bits"
+      ],
+      "fillColorMapKey": [
+        "bits"
+      ]
+    },
+    "FRO": {
+      "groups": [
+        "bilaterale-handelsavtaler"
+      ],
+      "fillColorMapKey": [
+        "bilaterale-handelsavtaler"
+      ]
+    },
+    "GRL": {
+      "groups": [
+        "bilaterale-handelsavtaler"
+      ],
+      "fillColorMapKey": [
+        "bilaterale-handelsavtaler"
+      ]
+    },
+    "BHR": {
+      "groups": [
+        "efta"
+      ],
+      "fillColorMapKey": [
+        "efta"
+      ]
+    },
+    "BWA": {
+      "groups": [
+        "efta"
+      ],
+      "fillColorMapKey": [
+        "efta"
+      ]
+    },
+    "CAN": {
+      "groups": [
+        "efta"
+      ],
+      "fillColorMapKey": [
+        "efta"
+      ]
+    },
+    "ISR": {
+      "groups": [
+        "efta"
+      ],
+      "fillColorMapKey": [
+        "efta"
+      ]
+    },
+    "KWT": {
+      "groups": [
+        "efta"
+      ],
+      "fillColorMapKey": [
+        "efta"
+      ]
+    },
+    "LSO": {
+      "groups": [
+        "efta"
+      ],
+      "fillColorMapKey": [
+        "efta"
+      ]
+    },
+    "NAM": {
+      "groups": [
+        "efta"
+      ],
+      "fillColorMapKey": [
+        "efta"
+      ]
+    },
+    "NOR": {
+      "groups": [
+        "efta",
+        "bits"
+      ]
+    },
+    "OMN": {
+      "groups": [
+        "efta"
+      ],
+      "fillColorMapKey": [
+        "efta"
+      ]
+    },
+    "QAT": {
+      "groups": [
+        "efta"
+      ],
+      "fillColorMapKey": [
+        "efta"
+      ]
+    },
+    "SAU": {
+      "groups": [
+        "efta"
+      ],
+      "fillColorMapKey": [
+        "efta"
+      ]
+    },
+    "ZAF": {
+      "groups": [
+        "efta"
+      ],
+      "fillColorMapKey": [
+        "efta"
+      ]
+    },
+    "SWZ": {
+      "groups": [
+        "efta"
+      ],
+      "fillColorMapKey": [
+        "efta"
+      ]
+    },
+    "ARE": {
+      "groups": [
+        "efta"
+      ],
+      "fillColorMapKey": [
+        "efta"
+      ]
+    },
+    "MDG": {
+      "groups": [
+        "bits"
+      ],
+      "fillColorMapKey": [
+        "bits"
+      ]
+    }
+  }
+}
