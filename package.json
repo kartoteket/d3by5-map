@@ -5,7 +5,8 @@
   "main": "d3by5-map.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "bin/dev.sh"
+    "dev": "bin/dev.sh",
+    "build": "bin/build.sh"
   },
   "repository": {
     "type": "git",
