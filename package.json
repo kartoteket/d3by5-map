@@ -5,9 +5,7 @@
   "main": "src/js/d3by5-map.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "node-sass --output-style expanded -w src/scss -o demo/css & postcss -u autoprefixer  < demo/css/main.css | postcss --use cssnano > demo/css/main.min.css & budo src/js/main.js:demo/js/main.js --open --live",
-    "build": "bin/build.sh",
-    "clean": "rm -rf dist"
+    "dev": "bin/dev.sh"
   },
   "repository": {
     "type": "git",
