@@ -136,10 +136,10 @@ function mapExample4(world, data) {
 
 // load data
 d3.queue()
-  .defer(d3.json, '/docs/data/world-topo.json')      // our geometries
-  .defer(d3.csv, '/docs/data/FSI-top10-2015.csv')    // demo data fsi
-  .defer(d3.json, '/docs/data/demo-data.json')       // our demo data
-  .defer(d3.json, '/docs/data/demo-data-map3.json')  // our demo data
+  .defer(d3.json, 'data/world-topo.json')      // our geometries
+  .defer(d3.csv, 'data/FSI-top10-2015.csv')    // demo data fsi
+  .defer(d3.json, 'data/demo-data.json')       // our demo data
+  .defer(d3.json, 'data/demo-data-map3.json')  // our demo data
   .await(loadMaps);
 
 // init when ready
