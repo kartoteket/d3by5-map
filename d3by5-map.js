@@ -100,12 +100,15 @@
       init: function (selection) {
 
         if (arguments.length) {
-          this.selection = selection;
+
+          // pass along the selection
+          map.selection = selection;
 
           // hook up listener to resize if responsive
-          d3.select(window).on('resize',  _.bind(this.resize, this));
+          d3.select(window).on('resize',  _.bind(map.resize, map));
 
-          this.draw();
+          // draw the map
+          map.draw();
         }
 
         return this;
