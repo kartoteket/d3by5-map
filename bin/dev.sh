@@ -3,7 +3,7 @@
 #     "dev": "node-sass --output-style expanded -w src/scss -o docs/css & postcss -u autoprefixer  < docs/css/main.css | postcss --use cssnano > docs/css/main.min.css & budo src/js/main.js:docs/js/main.js --open --live",
 node-sass --output-style expanded -w docs/scss -o docs/css &
 postcss -u autoprefixer  < docs/css/main.css | postcss --use cssnano > docs/css/main.min.css &
-budo docs/js/main.js:docs/build.js --open --live
+budo docs/js/main.js:docs/bundle.js --open --live
 
 
 
