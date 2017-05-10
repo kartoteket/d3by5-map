@@ -85,7 +85,7 @@ function mapExample2(world, data) {
     .projection('geoWinkel3')  // .geoWinkel3 // d3.geoCylindricalEqualArea  // d3.geoMercator    //d3.geoEquirectangular
     // .projectionFit(false)
     .showToolTipOn('click')
-    .assetsUrl('demo/')
+    .assetsUrl('/docs/')
     .backgroundgColor('#6C7C7C')
     .zoomControls(true)
     .zoomGestures(true)
@@ -136,10 +136,10 @@ function mapExample4(world, data) {
 
 // load data
 d3.queue()
-  .defer(d3.json, '/demo/data/world-topo.json')      // our geometries
-  .defer(d3.csv, '/demo/data/FSI-top10-2015.csv')    // demo data fsi
-  .defer(d3.json, '/demo/data/demo-data.json')       // our demo data
-  .defer(d3.json, '/demo/data/demo-data-map3.json')  // our demo data
+  .defer(d3.json, '/docs/data/world-topo.json')      // our geometries
+  .defer(d3.csv, '/docs/data/FSI-top10-2015.csv')    // demo data fsi
+  .defer(d3.json, '/docs/data/demo-data.json')       // our demo data
+  .defer(d3.json, '/docs/data/demo-data-map3.json')  // our demo data
   .await(loadMaps);
 
 // init when ready
@@ -153,9 +153,10 @@ function loadMaps(error, world, fsiData, tradeData, demoData3) {
     mapExample4(world, demoData3);
 
    // call on elm
-   d3.select('#map1').call(_.bind(map1.init, map1));
-   d3.select('#map2').call(_.bind(map2.init, map2));
-   d3.select('#map3').call(_.bind(map3.init, map3));
-   d3.select('#map4').call(_.bind(map4.init, map4));
+   // TODO: Need to pick up unique elmidentifier in script
+   d3.select('#map1').call(map1.init);
+   d3.select('#map2').call(map2.init);
+   d3.select('#map3').call(map3.init);
+   d3.select('#map4').call(map4.init);
 
 }
