@@ -2,30 +2,30 @@
   "name": "d3by5-map",
   "version": "0.0.1",
   "description": "A reusable d3 map",
-  "main": "src/js/d3by5-map.js",
+  "main": "d3by5-map.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "bin/dev.sh"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/kartoteket/d3by5-line-chart.git"
+    "url": "git+https://github.com/kartoteket/d3by5-map.git"
   },
   "keywords": [
     "d3",
-    "chart",
-    "graph"
+    "charts",
+    "map"
   ],
   "author": "Kartoteket <office@3by5.no> (http://3by5.no)",
   "contributors": [
-    "Bård Røtzer <bard@kartoteket.as>",
-    "Svale Fossåskaret <svale@kartoteket.as>"
+    "Svale Fossåskaret <svale@kartoteket.as>",
+    "Bård Røtzer <bard@kartoteket.as>"
   ],
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/kartoteket/d3by5-line-chart/issues"
+    "url": "https://github.com/kartoteket/d3by5-map/issues"
   },
-  "homepage": "https://github.com/kartoteket/d3by5-line-chart#readme",
+  "homepage": "https://github.com/kartoteket/d3by5-map#readme",
   "dependencies": {
     "bulma": "^0.4.1",
     "d3": "*",
