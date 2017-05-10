@@ -119,7 +119,7 @@
       draw: function () {
         var that = this
           , opt = this.options            // just to shorten...
-          , data = opt.data.values        // will probaby need a parser here at some point
+          , data = opt.data.values        // will probaby need a parser here at some point. TODO: Drop Values. title, schema etc be seperate options
           , scale = opt.scale
           , width = opt.width
           , height = opt.height
