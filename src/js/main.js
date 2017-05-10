@@ -1,37 +1,17 @@
-var d3 = require('d3');
+// dependencies
+var _           = require('lodash');
+var d3          = require('d3');
 var colorBrewer = require('d3-scale-chromatic');
-var _ = require('lodash');
-var Map = require('../../d3by5-map');
+var Map         = require('../../d3by5-map');
 
 // demo map dimensions
-var width = document.getElementsByClassName('wrapper')[0].offsetWidth;
-var height = 400;
+var width       = document.getElementsByClassName('wrapper')[0].offsetWidth;
+var height      = 400;
 
-// load data
-d3.queue()
-  .defer(d3.json, '/demo/data/world-topo.json')      // our geometries
-  .defer(d3.json, '/demo/data/demo-data.json')       // our demo data
-  .defer(d3.json, '/demo/data/demo-data-map3.json')       // our demo data
-  .defer(d3.csv, '/demo/data/FSI-top10-2015.csv')    // demo data fsi
-  .await(loadMap);
-
-// init when ready
-function loadMap(error, world, demoData, demoData3, fsi) {
-
-    if (error) throw error;
-
-    var colors = d3.scaleOrdinal()
-      .domain(_.map(_.filter(demoData.groups, ['type', 'treatise']), 'name'))
-      // .domain(['NOR', 'EGY', 'RUS'])
-      .range(['#F4CD2E', '#E16E51', '#4292A1']);
-
-    var textures = d3.scaleOrdinal()
-      .domain(_.map(_.filter(demoData.groups, ['type', 'treatise']), 'name'))
-      .range(['paths', 'lines', 'circles']);
-
+function mapExample1(world, data) {
     var fsiColors;
-    var min = d3.min(fsi, function(d) { return (+d.FSI);} );
-    var max = d3.max(fsi, function(d) { return (+d.FSI);} );
+    var min = d3.min(data, function(d) { return (+d.FSI);} );
+    var max = d3.max(data, function(d) { return (+d.FSI);} );
     // var mean = d3.mean(fsi, function(d) { return (+d.FSI);} );
     // var median = d3.median(fsi, function(d) { return (+d.FSI);} );
     // var extent = d3.extent(fsi, function(d) { return (+d.FSI);} );
@@ -51,27 +31,10 @@ function loadMap(error, world, demoData, demoData3, fsi) {
       return tooltipHtml.join('');
   };
 
-
-    // data
-    var data = {
-      title: "Demo map",
-      schema : [
-      {
-        "type"   : "CountryCode",
-        "color"  : 'red'
-      }
-      ],
-      values : demoData
-    };
-
-    var fsiData = {
-      values : fsi
-    };
-
   map1 = new Map()
     .width(width)
     .height(height)
-    .data(fsiData)
+    .data({values: data}) // TODO: Remove values
     .geoData(world)
     .color(fsiColors)
     .colorKey('properties.FSI')
@@ -80,11 +43,33 @@ function loadMap(error, world, demoData, demoData3, fsi) {
     .toolTipTemplate(fsiToolTipTemplate)
     .backgroundgColor('#006994')
     ;
+}
+
+function mapExample2(world, data) {
+  var colors = d3.scaleOrdinal()
+    .domain(_.map(_.filter(data.groups, ['type', 'treatise']), 'name'))
+    .range(['#F4CD2E', '#E16E51', '#4292A1']);
+
+  var textures = d3.scaleOrdinal()
+    .domain(_.map(_.filter(data.groups, ['type', 'treatise']), 'name'))
+    .range(['paths', 'lines', 'circles']);
+
+  // data
+  var _data = {
+    title: "Demo map",
+    schema : [
+    {
+      "type"   : "CountryCode",
+      "color"  : 'red'
+    }
+    ],
+    values : data
+  };
 
   map2 = new Map()
     .width(width)
     .height(height)
-    .data(data)
+    .data(_data)
     .geoData(world)
     .margin(30)
     .higlightOnHover(true)
@@ -106,39 +91,71 @@ function loadMap(error, world, demoData, demoData3, fsi) {
     .zoomGestures(true)
     .showLabels(2)
   ;
+}
+
+function mapExample3(world, data) {
+  var colors = d3.scaleOrdinal()
+    .domain(_.map(_.filter(data.groups, ['type', 'treatise']), 'name'))
+    .range(['#F4CD2E', '#E16E51', '#4292A1']);
 
   map3 = new Map()
     .width(width)
     .height(height)
-    .data({values: demoData3})
+    .data({values: data})
     .geoData(world)
     .projection('geoAzimuthalEqualArea')
-    .color(colors)
+    // .color(colors)
     .colorKey('properties.fillColorMapKey')
     .showLabels(3)
     .zoomResetOnOceanClick(true)
     .showToolTipOn('hover')
     .backgroundgColor('#6C7C7C')
     ;
+}
+
+function mapExample4(world, data) {
+  var colors = d3.scaleOrdinal()
+    .domain(_.map(_.filter(data.groups, ['type', 'treatise']), 'name'))
+    .range(['#F4CD2E', '#E16E51', '#4292A1']);
 
   map4 = new Map()
     .width(width)
     .height(height)
-    .data({values: demoData3})
+    .data({values: data})
     .geoData(world)
     .projection('geoEckert4')
     .color(colors)
+    .colorKey('properties.fillColorMapKey')
     // .texture(textures)
     .zoomResetOnOceanClick(true)
     .showToolTipOn(false)
     .backgroundgColor('#006994')
     ;
+}
 
+
+// load data
+d3.queue()
+  .defer(d3.json, '/demo/data/world-topo.json')      // our geometries
+  .defer(d3.csv, '/demo/data/FSI-top10-2015.csv')    // demo data fsi
+  .defer(d3.json, '/demo/data/demo-data.json')       // our demo data
+  .defer(d3.json, '/demo/data/demo-data-map3.json')  // our demo data
+  .await(loadMaps);
+
+// init when ready
+function loadMaps(error, world, fsiData, tradeData, demoData3) {
+    if (error) throw error;
+
+    // setup 4 example maps
+    mapExample1(world, fsiData);
+    mapExample2(world, tradeData);
+    mapExample3(world, demoData3);
+    mapExample4(world, demoData3);
 
    // call on elm
    d3.select('#map1').call(_.bind(map1.init, map1));
    d3.select('#map2').call(_.bind(map2.init, map2));
    d3.select('#map3').call(_.bind(map3.init, map3));
-   // d3.select('#map4').call(_.bind(map4.init, map4));
+   d3.select('#map4').call(_.bind(map4.init, map4));
 
 }
