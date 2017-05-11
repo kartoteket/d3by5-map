@@ -1,0 +1,88 @@
+/**
+ * MAP STYLES
+ */
+.d3x5_hidden {
+  opacity: 0;
+  display: none;
+}
+
+.d3x5_clickable:hover {
+  cursor: pointer;
+}
+
+/**
+ * Tooltip
+ */
+.d3x5_tooltip {
+  position: absolute;
+  color: #fff;
+  border: 2px solid rgba(255, 255, 255, 0.9);
+  background-color: #9dbfb1;
+  z-index: 2;
+}
+
+.d3x5_tooltip__close {
+  position: absolute;
+  top: 1px;
+  right: 1px;
+  border-bottom: 0;
+}
+
+.d3x5_tooltip__close:hover {
+  border-bottom: 0;
+}
+
+.d3x5_tooltip__header {
+  margin: 0 0 0;
+  padding: 10px 30px 10px 10px;
+  font-size: 1rem;
+  text-transform: uppercase;
+}
+
+.d3x5_tooltip__content > h4 {
+  display: inline-block;
+  margin: 5px 0;
+  padding: 0 5px 3px 10px;
+}
+
+.d3x5_tooltip__content > ul {
+  margin: 10px 10px 10px 0;
+  padding-left: 30px;
+}
+
+.d3x5_tooltip a:hover {
+  cursor: pointer;
+}
+
+/**
+ * d3by5 Map Features
+ */
+.d3x5_graticule {
+  fill: none;
+  stroke: #777;
+  stroke-width: .5px;
+  stroke-opacity: .5;
+}
+
+.d3x5_label {
+  pointer-events: none;
+}
+
+.d3x5_zoom-controls {
+  display: none;
+}
+
+@media all and (min-width: 740px) {
+  .d3x5_zoom-controls {
+    display: inline-block;
+  }
+  .d3x5_zoom-control {
+    opacity: .2;
+  }
+  .d3x5_zoom-control.d3x5_clickable {
+    opacity: .85;
+  }
+  .d3x5_zoom-control.d3x5_clickable:hover {
+    opacity: 1;
+  }
+}
