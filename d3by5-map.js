@@ -37,7 +37,7 @@
         zoomResetOnOceanClick: false, // reset zoom on background area click
 
         baseColor: '#F8EBCB',
-        backgroundgColor: '#ffffff',
+        backgroundgColor: 'none',     // 'none' for transparent or #HEX
         accentColor: '#FF6B6B',
         borderColor: '#9DBFB1',
         // fillColorMap: {},         // for simple mapping of fillColors
@@ -357,7 +357,13 @@
           rect = svg.append('rect')
               .attr('width', width)
               .attr('height', height)
-              .style('fill', opt.backgroundgColor);
+              .style('fill-opacity', function(){
+                return opt.backgroundgColor === 'none' ? 0 : 1;
+              });
+
+          if (opt.backgroundgColor !== 'none') {
+            rect.style('fill', opt.backgroundgColor);
+          }
 
           if (opt.zoomResetOnOceanClick) {
             rect.on('click', resetZoom);
