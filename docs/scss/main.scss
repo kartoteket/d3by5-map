@@ -1,21 +1,86 @@
 @import "../../node_modules/bulma/sass/utilities/initial-variables";
+
 // override variables here...
+$primary: #FF5629;
+$grey-darker : #313133;
+$grey-dark :  #403F3D;
+$grey : #7F7E7A;
+$grey-light: #BFBCB8;
+
+
+
 @import "../../node_modules/bulma/sass/utilities/_all";
 @import "../../node_modules/bulma/sass/base/generic";
 @import "../../node_modules/bulma/sass/base/helpers";
 @import "../../node_modules/bulma/sass/grid/columns";
+@import "../../node_modules/bulma/sass/elements/title";
+@import "../../node_modules/bulma/sass/elements/box";
+//@import "../../node_modules/bulma/sass/elements/other";
 @import "../..//node_modules/bulma/sass/layout/section";
 @import "../..//node_modules/bulma/sass/layout/footer";
 
+// reset bulma styles for nuber that collid with prism-styles
+.number {
+  align-items: initial;
+  background-color: initial;
+  border-radius: initial;
+  display: initial;
+  font-size: initial;
+  height: initial;
+  justify-content: initial;
+  margin-right: initial;
+  min-width: initial;
+  padding: initial;
+  text-align: initial;
+  vertical-align: initial;
+}
+
+
+html, body {
+    margin: 0;
+    padding: 0;
+}
+
+.header {
+    background-color: $grey-light;
+    padding: $size-1;
+}
+
+.section {
+  $greys: $black-ter, $grey, $grey-darker, $grey-dark;
+  @for $i from 1 through length($greys) {
+      &:nth-of-type(#{length($greys)}n+#{$i}) {
+          background: nth($greys, $i);
+      }
+  }
+
+  .title {
+    margin-top: 0;
+    color: $white-ter;
+  }
+
+  .desc {
+    padding-top: $size-2;
+    color: $white-ter;
+  }
+}
+
+.footer {
+  p {
+    font-weight: $weight-light;
+  }
+}
 
 /**
  * prism style overrides
  */
 code[class*="language-"] {
   padding: 0;
+  background: none;
 }
 pre[class*="language-"] {
   padding-top: 0;
+  background: none;
 }
 
 

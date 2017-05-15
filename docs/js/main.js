@@ -41,7 +41,7 @@ function mapExample1(world, data) {
     .zoomResetOnOceanClick(true)
     .showToolTipOn('hover')
     .toolTipTemplate(fsiToolTipTemplate)
-    .backgroundgColor('#006994')
+    // .backgroundgColor('#006994')
     ;
 }
 
@@ -86,7 +86,7 @@ function mapExample2(world, data) {
     // .projectionFit(false)
     .showToolTipOn('click')
     .assetsUrl('/docs/')
-    .backgroundgColor('#6C7C7C')
+    // .backgroundgColor('#6C7C7C')
     .zoomControls(true)
     .zoomGestures(true)
     .showLabels(2)
@@ -109,7 +109,7 @@ function mapExample3(world, data) {
     .showLabels(3)
     .zoomResetOnOceanClick(true)
     .showToolTipOn('hover')
-    .backgroundgColor('#6C7C7C')
+    // .backgroundgColor('#6C7C7C')
     ;
 }
 
@@ -129,7 +129,7 @@ function mapExample4(world, data) {
     // .texture(textures)
     .zoomResetOnOceanClick(true)
     .showToolTipOn(false)
-    .backgroundgColor('#006994')
+    // .backgroundgColor('#006994')
     ;
 }
 
