@@ -13,22 +13,26 @@
 <body>
 
 
-  <header id="header" class="page__header">
+  <header id="header" class="header">
     <div class="container">
       <div class="content has-text-centered">
-        <h1>d3by5 Maps</h1>
+        <h1 class="title is-1 is-marginless">d3by5 Maps</h1>
       </div>
     </div>
   </header>
 
-  <div class="page__main section">
-
+  <div class="section">
     <div class="container">
-      <div class="columns Xis-gapless is-multiline">
+      <div class="columns XXXis-gapless">
         <div class="column is-8 wrapper">
+          <h2 class="title is-3">Finanical Secrecy index 2015</h2>
           <div id="map1"></div>
         </div>
-        <div class="column is-3">
+        <div class="column is-4">
+          <div class="desc">
+            <p>A simple map with a default Mercator projection, diverging color scale visualising the 2015 FSI. Bad guys in red, good guys in green.</p>
+          </div>
+          <h3 class="title is-5">Code Example</h3>
           <pre><code class="language-js">new Map()
   .data(data)
   .geoData(world)
@@ -37,10 +41,24 @@
   .showToolTipOn(false)
   .backgroundgColor('#006994');</code></pre>
         </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="container">
+      <div class="columns XXXis-gapless">
+
         <div class="column is-8 wrapper">
+          <h2 class="title is-3">EFTA and bilateral investment treaties (BiTS)</h2>
           <div id="map2"></div>
         </div>
         <div class="column is-3">
+          <div class="desc">
+            <p>A map with a default geoWinkel3 projection, custom patterns and multi-color patterns, zoom control buttons and threshold country labels. Depicts Norwegian bilaterale investment trade agreements in combination with EFTA-countries.</p>
+          </div>
+          <h3 class="title is-5">Code Example</h3>
+
           <pre><code class="language-js">new Map()
   .data(data)
   .geoData(world)
@@ -58,7 +76,15 @@
   .zoomGestures(true)
   .showLabels(true);</code></pre>
         </div>
+     </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="container">
+      <div class="columns XXXis-gapless">
         <div class="column is-8 wrapper">
+          <h2 class="title is-3">Forest area (% of land area)</h2>
           <div id="map3"></div>
         </div>
         <div class="column is-3">
@@ -72,6 +98,14 @@
   .showToolTipOn('hover')
   .backgroundgColor('#6C7C7C');</code></pre>
         </div>
+     </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="container">
+      <div class="columns XXXis-gapless">
+
         <div class="column is-8 wrapper">
           <div id="map4"></div>
         </div>
@@ -92,11 +126,15 @@
   <footer class="footer">
     <div class="container">
       <div class="content has-text-centered">
-        d3by5
+        <h5 class="title is-5 is-spaced">d3by5 maps</h5>
+        <h6 class="subtitle is-6">Part of the d3by5 <a href="https://twitter.com/hashtag/dataviz">#dataviz</a> tools. </h6>
+        <p>by <a href="http://kartoteket.as/">Kartoteket / 3by5</a></p>
+        <p>MIT License</p>
       </div>
     </div>
   </footer>
 
+  <a href="https://github.com/kartoteket/d3by5-map"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://camo.githubusercontent.com/a6677b08c955af8400f44c6298f40e7d19cc5b2d/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f677261795f3664366436642e706e67" alt="Fork me on GitHub" data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_gray_6d6d6d.png"></a>
 
   <script src="bundle.js"></script>
   <script src="js/prism.js"></script>
