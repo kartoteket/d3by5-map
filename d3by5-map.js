@@ -194,19 +194,13 @@
                 }
             });
 
-            // Parse data (move this somwhere probably)
+            // Parse data that comes in other shapes and forms (move this somwhere probably)
             // Need to define a set schema.
-
-            // 1) look for a countryCode or countryName
-            if (data.columns) { //d3.csv() exposes a coumns property
+            if (data.columns || Array.isArray(data)) {
+              var key = null;
               var notFound = [];
               var keys = [_.last(countryIsoCodeMap, 1), 'id', 'countrycode', 'countryCode', 'country', 'Country', 'countryName', 'countryname'];
-              var key = data.columns.find(function(d) {
-                return keys.includes(d);
-              });
-
-              if ( key ) {
-
+              var parseDataByKey = function (key) {
                 data.countries = {};
                 data.forEach( function (d) {
                   var id = d[key];
@@ -222,19 +216,28 @@
                 });
               }
 
-              if (notFound.length) {
+              // 1) look for a countryCode or countryName
+              if (data.columns) { //d3.csv() exposes a coumns property
+                key = data.columns.find(function(d) {
+                  return keys.includes(d);
+                });
+
+              // 2) if data is an array of countries
+              } else if (Array.isArray(data)) {
+
+                key = Object.keys(data[0]).find(function(d) {
+                  return keys.includes(d);
+                });
+              }
+
+              if ( key ) {
+                parseDataByKey(key);
+              }
+
+              if (this.debug && notFound.length) {
                 console.log('Warning! Not found: ' + notFound.join(', '));
               }
             }
-
-
-            // if (_.isArray(data) && _.has(data[0],_.last(countryIsoCodeMap, 1))) {
-            //   data.forEach( function (d) {
-            //     d[_.last(countryIsoCodeMap, 1)] = iso3166.from(d.Country).to3();
-            //   });
-            //   console.log( data[1]);
-            // }
-
           }
 
           // extend countries properties with custom data
