@@ -113,24 +113,35 @@ function mapExample3(world, data) {
     ;
 }
 
-function mapExample4(world, data) {
-  var colors = d3.scaleOrdinal()
-    .domain(_.map(_.filter(data.groups, ['type', 'treatise']), 'name'))
-    .range(['#F4CD2E', '#E16E51', '#4292A1']);
 
-  map4 = new Map()
-    .width(width)
-    .height(height)
-    .data({values: data})
-    .geoData(world)
-    .projection('geoEckert4')
-    .color(colors)
-    .colorKey('properties.fillColorMapKey')
-    // .texture(textures)
-    .zoomResetOnOceanClick(true)
-    .showToolTipOn(false)
-    // .backgroundgColor('#006994')
-    ;
+function mapExample4(world) {
+
+  d3.jsonp('http://api.worldbank.org/countries?per_page=400&format=jsonP&prefix={callback}', function(data) {
+
+    // console.log(data[1])
+    var countries = data[1];
+
+    var colors = d3.scaleOrdinal()
+      .domain(['HIC', 'UMC', 'MIC', 'LMC', 'LMY', 'LIC'])
+      .range(colorBrewer.schemePurples[6].reverse());
+
+    map4 = new Map()
+      .width(width)
+      .height(height)
+      .data({values: data[1] })
+      .geoData(world)
+      .projection('geoEckert4')
+      .color(colors)
+      .colorKey('properties.incomeLevel.id')
+      // .texture(textures)
+      .zoomResetOnOceanClick(true)
+      .showToolTipOn(false)
+      // .backgroundgColor('#006994')
+      ;
+
+      d3.select('#map4').call(map4.init);
+
+  });
 }
 
 
@@ -157,6 +168,4 @@ function loadMaps(error, world, fsiData, tradeData, demoData3) {
    d3.select('#map1').call(map1.init);
    d3.select('#map2').call(map2.init);
    d3.select('#map3').call(map3.init);
-   d3.select('#map4').call(map4.init);
-
 }
