@@ -20,6 +20,7 @@
        */
       options : {
 
+        debug: false, // tod setter/getter
         data : {},                   // data to visualize
         geoData : {},                // topoJson (only for now)
 
