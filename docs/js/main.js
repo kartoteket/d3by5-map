@@ -1,6 +1,6 @@
 // dependencies
 var _           = require('lodash');
-var d3          = require('d3');
+// var d3          = require('d3');
 var colorBrewer = require('d3-scale-chromatic');
 var Map         = require('../../d3by5-map');
 
