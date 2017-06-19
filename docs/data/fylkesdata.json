@@ -1,0 +1,97 @@
+[
+  {
+    "NAVN": "SÃ¸r-TrÃ¸ndelag",
+    "FylkeNr": 16,
+    "group": "Trøndelag"
+  },
+  {
+    "NAVN": "Nord-TrÃ¸ndelag",
+    "FylkeNr": 17,
+    "group": "Trøndelag"
+  },
+  {
+    "NAVN": "Nordland",
+    "FylkeNr": 18,
+    "group": "Nord"
+  },
+  {
+    "NAVN": "Troms",
+    "FylkeNr": 19,
+    "group": "Nord"
+  },
+  {
+    "NAVN": "Finnmark",
+    "FylkeNr": 20,
+    "group": "Nord"
+  },
+  {
+    "NAVN": "Vestfold",
+    "FylkeNr": 7,
+    "group": "Øst"
+  },
+  {
+    "NAVN": "Ã˜stfold",
+    "FylkeNr": 1,
+    "group": "Øst"
+  },
+  {
+    "NAVN": "Oslo",
+    "FylkeNr": 3,
+    "group": "Øst"
+  },
+  {
+    "NAVN": "Akershus",
+    "FylkeNr": 2,
+    "group": "Øst"
+  },
+  {
+    "NAVN": "Buskerud",
+    "FylkeNr": 6,
+    "group": "Øst"
+  },
+  {
+    "NAVN": "Oppland",
+    "FylkeNr": 5,
+    "group": "Hed/Opp"
+  },
+  {
+    "NAVN": "Hedmark",
+    "FylkeNr": 4,
+    "group": "Hed/Opp"
+  },
+  {
+    "NAVN": "Vest-Agder",
+    "FylkeNr": 10,
+    "group": "Sør"
+  },
+  {
+    "NAVN": "Aust-Agder",
+    "FylkeNr": 9,
+    "group": "Sør"
+  },
+  {
+    "NAVN": "Rogaland",
+    "FylkeNr": 11,
+    "group": "Stavanger"
+  },
+  {
+    "NAVN": "Telemark",
+    "FylkeNr": 8,
+    "group": "Sør"
+  },
+  {
+    "NAVN": "Hordaland",
+    "FylkeNr": 12,
+    "group": "Bjørgvin"
+  },
+  {
+    "NAVN": "Sogn og Fjordane",
+    "FylkeNr": 14,
+    "group": "Bjørgvin"
+  },
+  {
+    "NAVN": "MÃ¸re og Romsdal",
+    "FylkeNr": 15,
+    "group": "Bjørgvin"
+  }
+]
