@@ -110,6 +110,9 @@
           // use selection to set a unique identifier (TODO: but what if selection is based on class ??)
           map.id = selection.node().id;
 
+          // Add required position: relative to element (for position of tooltips)
+          selection.style('position', 'relative');
+
           // hook up listener to resize if responsive
           d3.select(window).on('resize',  _.bind(map.resize, map));
 
