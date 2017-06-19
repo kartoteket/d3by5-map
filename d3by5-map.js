@@ -20,8 +20,8 @@
        */
       options : {
 
-        data : {},                   // data to visualize
         debug: false,
+        data : {values : null},      // data to visualize. TODO: remove values
         geoData : {},                // topoJson (only for now)
 
         width : 960,
@@ -204,7 +204,8 @@
 
             // Parse data that comes in other shapes and forms (move this somwhere probably)
             // Need to define a set schema.
-            if (data.columns || Array.isArray(data)) {
+
+            if (data && (data.columns || Array.isArray(data))) {
               var key = null;
               var notFound = [];
               var keys = [_.last(countryIsoCodeMap, 1), 'id', 'countrycode', 'countryCode', 'country', 'Country', 'countryName', 'countryname'];
