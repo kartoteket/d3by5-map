@@ -198,8 +198,13 @@
                   id = id ? id[countryIsoCodeMap[i]] : d[countryIsoCodeMap[i]];
                 }
                 if (id) {
-                  d.id = iso3166.whereAlpha2(id).alpha2 || iso3166.whereAlpha3(id).alpha2 || d.id;
+                  if (iso3166) {
+                    d.id = iso3166.whereAlpha2(id).alpha2 || iso3166.whereAlpha3(id).alpha2 || iso3166.whereNumeric(id).alpha2 || d.id;                    
+                  } else {
+                    d.id = id
+                  }
                 }
+                // console.log(d.id);
             });
 
             // Parse data that comes in other shapes and forms (move this somwhere probably)
@@ -214,36 +219,42 @@
                 data.forEach( function (d) {
                   var id = d[key];
                   var country = null;
-                  if(id) {
-                    country = iso3166.whereAlpha2(id) || iso3166.whereAlpha3(id) || iso3166.whereNumeric(id) || iso3166.whereCountry(id);
+if (iso3166) {
+                  if (id) {
+                    country = iso3166.whereAlpha2(id) || iso3166.whereAlpha3(id) || iso3166.whereNumeric(d3.format('03')(id)) || iso3166.whereCountry(id);
                   }
                   if (country) {
                     data.countries[country.alpha3] = d;
                   } else {
-                    notFound.push(id);
+                    notFound.push(d.country);
                   }
+} else {
+                    data.countries[id] = d;
+
+}
                 });
               }
 
               // 1) look for a countryCode or countryName
-              if (data.columns) { //d3.csv() exposes a coumns property
-                key = data.columns.find(function(d) {
-                  return keys.includes(d);
+              if (data.columns) { //d3.csv() exposes a columns property
+                key = keys.find(function(d) {
+                  return data.columns.includes(d);
                 });
 
               // 2) if data is an array of countries
               } else if (Array.isArray(data)) {
 
-                key = Object.keys(data[0]).find(function(d) {
-                  return keys.includes(d);
+                key = keys.find(function(d) {
+                  return Object.keys(data[0]).includes(d);
                 });
               }
 
               if ( key ) {
+                // console.log(key);
                 parseDataByKey(key);
               }
 
-              if (this.debug && notFound.length) {
+              if (that.debug && notFound.length) {
                 console.log('Warning! Not found: ' + notFound.join(', '));
               }
             }
@@ -252,11 +263,17 @@
           // extend countries properties with custom data
           // TODO. Ad hoc for now, currently just assumes that the data has a country alph3 id as key...
           countries.forEach( function (c) {
-            var country = iso3166.whereAlpha2(c.id.toString());
-            if (country) {
-              var id = country.alpha3; // tmp ad hoc alpha3 conversion
-              if(_.has(data.countries, id)) {
-                _.assign(c.properties, data.countries[id]);
+            if (iso3166) {
+              var country = iso3166.whereAlpha2(c.id.toString());
+              if (country) {
+                var id = country.alpha3; // tmp ad hoc alpha3 conversion
+                if(_.has(data.countries, id)) {
+                  _.assign(c.properties, data.countries[id]);
+                }
+              }
+            } else {
+              if(_.has(data.countries, c.id)) {
+                _.assign(c.properties, data.countries[c.id]);
               }
             }
           });
@@ -417,14 +434,19 @@
               .style('fill', function(d, i) { // TODO move all this to a setFill()-function ??!?
 
                 // default fill with base color
+                var id
                 var fill = opt.baseColor;
 
                 // get country
-                var country = iso3166.whereAlpha2(d.id.toString()); // probably best to fork this and make sure it can:
-                                                                    // typecast strings and
-                                                                    // return undefined
-                                                                    // look up more fuzzy (st/Saints, &/and, short forms)
-                var id = country ? country.alpha3 : null;           // tmp ad hoc alpha3 conversion
+                if (iso3166) {
+                  var country = iso3166.whereAlpha2(d.id.toString()); // probably best to fork this and make sure it can:
+                                                                      // typecast strings and
+                                                                      // return undefined
+                                                                      // look up more fuzzy (st/Saints, &/and, short forms)
+                  id = country ? country.alpha3 : null;           // tmp ad hoc alpha3 conversion
+                } else {
+                  id = d.id;
+                }
 
                 if(opt.color && data.countries[id]) { // ad hoc force alpha3. TOOD: Test for this
                   fill = opt.color(d.colorKey[0]);
