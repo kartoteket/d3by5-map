@@ -16,7 +16,8 @@
   <header id="header" class="header">
     <div class="container">
       <div class="content has-text-centered">
-        <h1 class="title is-1 is-marginless">d3by5 Maps</h1>
+        <h1 class="title is-1">d3by5 Maps</h1>
+        <h2 class="subtitle is-4">A reusable d3 map library</2>
       </div>
     </div>
   </header>
@@ -24,7 +25,7 @@
   <div class="section">
     <div class="container">
       <div class="columns XXXis-gapless">
-        <div class="column is-8 wrapper">
+        <div class="column is-7 wrapper">
           <h2 class="title is-3">Finanical Secrecy index 2015</h2>
           <div id="map1"></div>
         </div>
@@ -32,6 +33,10 @@
           <div class="desc">
             <p>A simple map with a default Mercator projection, diverging color scale visualising the 2015 FSI. Bad guys in red, good guys in green.</p>
           </div>
+
+          <h3 class="title is-5">FSI Score Legend </h3>
+          <ul class="legend legend1"></ul>
+
           <h3 class="title is-5">Code Example</h3>
           <pre><code class="language-js">new Map()
   .data(data)
@@ -40,6 +45,7 @@
   .zoomResetOnOceanClick(true)
   .showToolTipOn(false)
   .backgroundgColor('#006994');</code></pre>
+            <p class="desc"><small>Data source: http://www.financialsecrecyindex.com/introduction/fsi-2015-results</small></p>
         </div>
       </div>
     </div>
@@ -49,11 +55,11 @@
     <div class="container">
       <div class="columns XXXis-gapless">
 
-        <div class="column is-8 wrapper">
+        <div class="column is-7 wrapper">
           <h2 class="title is-3">EFTA and bilateral investment treaties (BiTS)</h2>
           <div id="map2"></div>
         </div>
-        <div class="column is-3">
+        <div class="column is-4">
           <div class="desc">
             <p>A map with a default geoWinkel3 projection, custom patterns and multi-color patterns, zoom control buttons and threshold country labels. Depicts Norwegian bilaterale investment trade agreements in combination with EFTA-countries.</p>
           </div>
@@ -75,6 +81,7 @@
   .zoomControls(true)
   .zoomGestures(true)
   .showLabels(true);</code></pre>
+            <p class="desc"><small>Data source: http://www.handelskampanjen.no/handelskartet</small></p>
         </div>
      </div>
     </div>
@@ -83,11 +90,11 @@
   <div class="section">
     <div class="container">
       <div class="columns XXXis-gapless">
-        <div class="column is-8 wrapper">
-          <h2 class="title is-3">Forest area (% of land area)</h2>
+        <div class="column is-7 wrapper">
+          <h2 class="title is-3">World Migration</h2>
           <div id="map3"></div>
         </div>
-        <div class="column is-3">
+        <div class="column is-4">
           <pre><code class="language-js">new Map()
   .data(data)
   .geoData(world)
@@ -98,6 +105,7 @@
   .showToolTipOn('hover')
   .backgroundgColor('#6C7C7C');</code></pre>
         </div>
+          <p class="desc"><small>Data source: http://www.un.org/en/development/desa/population/migration/data/estimates2/estimates15.shtml</small></p>
      </div>
     </div>
   </div>
@@ -106,10 +114,21 @@
     <div class="container">
       <div class="columns XXXis-gapless">
 
-        <div class="column is-8 wrapper">
+        <div class="column is-7 wrapper">
+          <h2 class="title is-3">World By Income</h2>
           <div id="map4"></div>
         </div>
         <div class="column is-3">
+
+          <h3 class="title is-5">Legend</h3>
+          <ul class="legend legend4">
+            <li><span id="HIC"></span>High income</li>
+            <li><span id="UMC"></span>Upper middle income</li>
+            <li><span id="LMC"></span>Lower middle income</li>
+            <li><span id="LMY"></span>Low & middle income</li>
+            <li><span id="LIC"></span>Low income</li>
+          </ul>
+
           <pre><code class="language-js">new Map()
   .data(data)
   .geoData(world)
@@ -118,10 +137,20 @@
   .zoomResetOnOceanClick(true)
   .showToolTipOn(false)
   .backgroundgColor('#006994');</code></pre>
+     </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="container">
+      <div class="columns">
+        <div class="column is-12">
+          <!--startoptions--><!--endoptions-->
         </div>
       </div>
     </div>
-  </div>
+</div>
+
 
   <footer class="footer">
     <div class="container">
