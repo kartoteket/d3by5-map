@@ -213,7 +213,7 @@ d3.queue()
   .defer(d3.json, 'data/world-topo.json')       // our geometries
   .defer(d3.csv, 'data/FSI-top10-2015.csv')     // demo data fsi
   .defer(d3.json, 'data/demo-data.json')        // our demo data
-  .defer(d3.csv, 'data/migration2.csv')         // our demo data
+  .defer(d3.csv, 'data/migration.csv')         // our demo data
   .await(loadMaps);
 
 // init when ready
