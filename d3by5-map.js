@@ -50,6 +50,8 @@
         projectionFit: true,         // tries to fit the map inside container. Todo: rename ??
 
         countryIsoCodeMap : 'properties.countryCode',    // If the topojson does not store the ISO code in  "geometries.id", use this to map the correct attribute (uses dot notation, eg "properties.countryCode")
+        geometries: 'countries',       // TODO: Document. References the topojson geometries object
+
 
         color: null,
         texture: null,
@@ -178,8 +180,8 @@
             .on('end', zoomedEnd);
 
           // geoJson
-          countries = topojson.feature(opt.geoData, opt.geoData.objects.countries).features;
-          neighbors = topojson.neighbors(opt.geoData.objects.countries.geometries);
+          countries = topojson.feature(opt.geoData, opt.geoData.objects[opt.geometries]).features;
+          neighbors = topojson.neighbors(opt.geoData.objects[opt.geometries].geometries);
 
           // mapping iso country code in geoData (topojson).
           if(opt.countryIsoCodeMap) {
@@ -453,7 +455,7 @@
           // add border-lines between countries
           // TODO Toggle as option
           g.append('path')
-            .datum(topojson.mesh(opt.geoData, opt.geoData.objects.countries, function(a, b) { return a !== b; }))
+            .datum(topojson.mesh(opt.geoData, opt.geoData.objects[opt.geometries], function(a, b) { return a !== b; }))
             .classed(opt.classPrefix + 'boundary', true)
             .attr('d', path)
             .style('fill', 'none')
@@ -960,7 +962,7 @@
           }
 
           if(this.options.projectionFit) {
-              var object = topojson.feature(this.options.geoData, {type: 'GeometryCollection', geometries: this.options.geoData.objects.countries.geometries });
+              var object = topojson.feature(this.options.geoData, {type: 'GeometryCollection', geometries: this.options.geoData.objects[this.options.geometries].geometries });
               projection.fitExtent([[this.options.margin, this.options.margin], [width-this.options.margin, height-this.options.margin]], object);
               // projection.fitSize([width, height], object);
 
@@ -1125,6 +1127,11 @@
       countryIsoCodeMap: function(value) {
         return arguments.length ? (this.options.countryIsoCodeMap = value, this) : this.options.countryIsoCodeMap;
       },
+
+      geometries: function(value) {
+        return arguments.length ? (this.options.geometries = value, this) : this.options.geometries;
+      },
+
 
       showLabels: function(value) {
         return arguments.length ? (this.options.showLabels = value, this) : this.options.showLabels;
