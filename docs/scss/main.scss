@@ -8,8 +8,8 @@ $grey : #7F7E7A;
 $grey-light: #BFBCB8;
 
 
-
 @import "../../node_modules/bulma/sass/utilities/_all";
+@import "../../node_modules/bulma/sass/base/minireset";
 @import "../../node_modules/bulma/sass/base/generic";
 @import "../../node_modules/bulma/sass/base/helpers";
 @import "../../node_modules/bulma/sass/grid/columns";
@@ -35,11 +35,10 @@ $grey-light: #BFBCB8;
   vertical-align: initial;
 }
 
-
-html, body {
-    margin: 0;
-    padding: 0;
-}
+// html, body {
+//     margin: 0;
+//     padding: 0;
+// }
 
 .header {
     background-color: $grey-light;
@@ -55,7 +54,7 @@ html, body {
   }
 
   .title {
-    margin-top: 0;
+    margin-top: 1.5rem;
     color: $white-ter;
   }
 
@@ -70,6 +69,21 @@ html, body {
     font-weight: $weight-light;
   }
 }
+
+.legend > li {
+  position: relative;
+  padding-left: 1.2rem;
+  color: #fff;
+  span {
+    position: absolute;
+    top: .33rem;
+    left: 0;
+    width: .8rem;
+    height: .8rem;
+    background-color: transparent;
+  }
+}
+
 
 /**
  * prism style overrides

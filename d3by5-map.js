@@ -20,7 +20,8 @@
        */
       options : {
 
-        data : {},                   // data to visualize
+        debug: false,
+        data : {values : null},      // data to visualize. TODO: remove values
         geoData : {},                // topoJson (only for now)
 
         width : 960,
@@ -49,6 +50,8 @@
         projectionFit: true,         // tries to fit the map inside container. Todo: rename ??
 
         countryIsoCodeMap : 'properties.countryCode',    // If the topojson does not store the ISO code in  "geometries.id", use this to map the correct attribute (uses dot notation, eg "properties.countryCode")
+        geometries: 'countries',       // TODO: Document. References the topojson geometries object
+
 
         color: null,
         texture: null,
@@ -103,6 +106,12 @@
 
           // pass along the selection
           map.selection = selection;
+
+          // use selection to set a unique identifier (TODO: but what if selection is based on class ??)
+          map.id = selection.node().id;
+
+          // Add required position: relative to element (for position of tooltips)
+          selection.style('position', 'relative');
 
           // hook up listener to resize if responsive
           d3.select(window).on('resize',  _.bind(map.resize, map));
@@ -177,8 +186,8 @@
             .on('end', zoomedEnd);
 
           // geoJson
-          countries = topojson.feature(opt.geoData, opt.geoData.objects.countries).features;
-          neighbors = topojson.neighbors(opt.geoData.objects.countries.geometries);
+          countries = topojson.feature(opt.geoData, opt.geoData.objects[opt.geometries]).features;
+          neighbors = topojson.neighbors(opt.geoData.objects[opt.geometries].geometries);
 
           // mapping iso country code in geoData (topojson).
           if(opt.countryIsoCodeMap) {
@@ -189,61 +198,82 @@
                   id = id ? id[countryIsoCodeMap[i]] : d[countryIsoCodeMap[i]];
                 }
                 if (id) {
-                  d.id = iso3166.whereAlpha2(id).alpha2 || iso3166.whereAlpha3(id).alpha2 || d.id;
+                  if (iso3166) {
+                    d.id = iso3166.whereAlpha2(id).alpha2 || iso3166.whereAlpha3(id).alpha2 || iso3166.whereNumeric(id).alpha2 || d.id;                    
+                  } else {
+                    d.id = id
+                  }
                 }
+                // console.log(d.id);
             });
 
-            // Parse data (move this somwhere probably)
+            // Parse data that comes in other shapes and forms (move this somwhere probably)
             // Need to define a set schema.
 
-            // 1) look for a countryCode or countryName
-            if (data.columns) { //d3.csv() exposes a coumns property
+            if (data && (data.columns || Array.isArray(data))) {
+              var key = null;
               var notFound = [];
               var keys = [_.last(countryIsoCodeMap, 1), 'id', 'countrycode', 'countryCode', 'country', 'Country', 'countryName', 'countryname'];
-              var key = data.columns.find(function(d) {
-                return keys.includes(d);
-              });
-
-              if ( key ) {
-
+              var parseDataByKey = function (key) {
                 data.countries = {};
                 data.forEach( function (d) {
                   var id = d[key];
                   var country = null;
-                  if(id) {
-                    country = iso3166.whereAlpha2(id) || iso3166.whereAlpha3(id) || iso3166.whereNumeric(id) || iso3166.whereCountry(id);
+if (iso3166) {
+                  if (id) {
+                    country = iso3166.whereAlpha2(id) || iso3166.whereAlpha3(id) || iso3166.whereNumeric(d3.format('03')(id)) || iso3166.whereCountry(id);
                   }
                   if (country) {
                     data.countries[country.alpha3] = d;
                   } else {
-                    notFound.push(id);
+                    notFound.push(d.country);
                   }
+} else {
+                    data.countries[id] = d;
+
+}
                 });
               }
 
-              if (notFound.length) {
+              // 1) look for a countryCode or countryName
+              if (data.columns) { //d3.csv() exposes a columns property
+                key = keys.find(function(d) {
+                  return data.columns.includes(d);
+                });
+
+              // 2) if data is an array of countries
+              } else if (Array.isArray(data)) {
+
+                key = keys.find(function(d) {
+                  return Object.keys(data[0]).includes(d);
+                });
+              }
+
+              if ( key ) {
+                // console.log(key);
+                parseDataByKey(key);
+              }
+
+              if (that.debug && notFound.length) {
                 console.log('Warning! Not found: ' + notFound.join(', '));
               }
             }
-
-
-            // if (_.isArray(data) && _.has(data[0],_.last(countryIsoCodeMap, 1))) {
-            //   data.forEach( function (d) {
-            //     d[_.last(countryIsoCodeMap, 1)] = iso3166.from(d.Country).to3();
-            //   });
-            //   console.log( data[1]);
-            // }
-
           }
 
           // extend countries properties with custom data
           // TODO. Ad hoc for now, currently just assumes that the data has a country alph3 id as key...
           countries.forEach( function (c) {
-            var country = iso3166.whereAlpha2(c.id.toString());
-            if (country) {
-              var id = country.alpha3; // tmp ad hoc alpha3 conversion
-              if(_.has(data.countries, id)) {
-                _.assign(c.properties, data.countries[id]);
+            if (iso3166) {
+              var country = iso3166.whereAlpha2(c.id.toString());
+              if (country) {
+                var id = country.alpha3; // tmp ad hoc alpha3 conversion
+                if(_.has(data.countries, id)) {
+                  _.assign(c.properties, data.countries[id]);
+                }
+              }
+            } else {
+              if(_.has(data.countries, c.id)) {
+                _.assign(c.properties, data.countries[c.id]);
               }
             }
           });
@@ -404,14 +434,19 @@
               .style('fill', function(d, i) { // TODO move all this to a setFill()-function ??!?
 
                 // default fill with base color
+                var id
                 var fill = opt.baseColor;
 
                 // get country
-                var country = iso3166.whereAlpha2(d.id.toString()); // probably best to fork this and make sure it can:
-                                                                    // typecast strings and
-                                                                    // return undefined
-                                                                    // look up more fuzzy (st/Saints, &/and, short forms)
-                var id = country ? country.alpha3 : null;           // tmp ad hoc alpha3 conversion
+                if (iso3166) {
+                  var country = iso3166.whereAlpha2(d.id.toString()); // probably best to fork this and make sure it can:
+                                                                      // typecast strings and
+                                                                      // return undefined
+                                                                      // look up more fuzzy (st/Saints, &/and, short forms)
+                  id = country ? country.alpha3 : null;           // tmp ad hoc alpha3 conversion
+                } else {
+                  id = d.id;
+                }
 
                 if(opt.color && data.countries[id]) { // ad hoc force alpha3. TOOD: Test for this
                   fill = opt.color(d.colorKey[0]);
@@ -449,7 +484,7 @@
           // add border-lines between countries
           // TODO Toggle as option
           g.append('path')
-            .datum(topojson.mesh(opt.geoData, opt.geoData.objects.countries, function(a, b) { return a !== b; }))
+            .datum(topojson.mesh(opt.geoData, opt.geoData.objects[opt.geometries], function(a, b) { return a !== b; }))
             .classed(opt.classPrefix + 'boundary', true)
             .attr('d', path)
             .style('fill', 'none')
@@ -828,7 +863,7 @@
 
         // if on click, add close button
         if( this.options.showToolTipOn === 'click') {
-          toolTip.html('<a href="#" class="d3x5_tooltip__close"><img src="' + opt.assetsUrl +'images/close.svg"></a>');
+          toolTip.html('<a class="d3x5_tooltip__close"><img src="' + opt.assetsUrl +'images/close.svg"></a>');
           toolTip.select('.'+opt.classPrefix+'tooltip__close').on('click', map.closeToolTip);
         }
 
@@ -956,7 +991,7 @@
           }
 
           if(this.options.projectionFit) {
-              var object = topojson.feature(this.options.geoData, {type: 'GeometryCollection', geometries: this.options.geoData.objects.countries.geometries });
+              var object = topojson.feature(this.options.geoData, {type: 'GeometryCollection', geometries: this.options.geoData.objects[this.options.geometries].geometries });
               projection.fitExtent([[this.options.margin, this.options.margin], [width-this.options.margin, height-this.options.margin]], object);
               // projection.fitSize([width, height], object);
 
@@ -1122,6 +1157,11 @@
         return arguments.length ? (this.options.countryIsoCodeMap = value, this) : this.options.countryIsoCodeMap;
       },
 
+      geometries: function(value) {
+        return arguments.length ? (this.options.geometries = value, this) : this.options.geometries;
+      },
+
+
       showLabels: function(value) {
         return arguments.length ? (this.options.showLabels = value, this) : this.options.showLabels;
       },
@@ -1141,14 +1181,18 @@
       classPrefix: function(value) {
         return arguments.length ? (this.options.classPrefix = value, this) : this.options.classPrefix;
       },
-
-
+      debug: function(value) {
+        return arguments.length ? (this.options.debug = value, this) : this.options.debug;
+      },
       // extra bulk setters/getters
       setOptions: function(value) {
         return arguments.length ? (_.extend(this.options, value), this) :  this.options;
       },
       getOptions: function() {
         return this.options;
+      },
+      getId: function(value) {
+        return this.id;
       }
     };
 

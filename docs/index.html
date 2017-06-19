@@ -16,7 +16,8 @@
   <header id="header" class="header">
     <div class="container">
       <div class="content has-text-centered">
-        <h1 class="title is-1 is-marginless">d3by5 Maps</h1>
+        <h1 class="title is-1">d3by5 Maps</h1>
+        <h2 class="subtitle is-4">A reusable d3 map library</2>
       </div>
     </div>
   </header>
@@ -24,7 +25,7 @@
   <div class="section">
     <div class="container">
       <div class="columns XXXis-gapless">
-        <div class="column is-8 wrapper">
+        <div class="column is-7 wrapper">
           <h2 class="title is-3">Finanical Secrecy index 2015</h2>
           <div id="map1"></div>
         </div>
@@ -32,6 +33,10 @@
           <div class="desc">
             <p>A simple map with a default Mercator projection, diverging color scale visualising the 2015 FSI. Bad guys in red, good guys in green.</p>
           </div>
+
+          <h3 class="title is-5">FSI Score Legend </h3>
+          <ul class="legend legend1"></ul>
+
           <h3 class="title is-5">Code Example</h3>
           <pre><code class="language-js">new Map()
   .data(data)
@@ -40,6 +45,7 @@
   .zoomResetOnOceanClick(true)
   .showToolTipOn(false)
   .backgroundgColor('#006994');</code></pre>
+            <p class="desc"><small>Data source: http://www.financialsecrecyindex.com/introduction/fsi-2015-results</small></p>
         </div>
       </div>
     </div>
@@ -49,11 +55,11 @@
     <div class="container">
       <div class="columns XXXis-gapless">
 
-        <div class="column is-8 wrapper">
+        <div class="column is-7 wrapper">
           <h2 class="title is-3">EFTA and bilateral investment treaties (BiTS)</h2>
           <div id="map2"></div>
         </div>
-        <div class="column is-3">
+        <div class="column is-4">
           <div class="desc">
             <p>A map with a default geoWinkel3 projection, custom patterns and multi-color patterns, zoom control buttons and threshold country labels. Depicts Norwegian bilaterale investment trade agreements in combination with EFTA-countries.</p>
           </div>
@@ -75,6 +81,7 @@
   .zoomControls(true)
   .zoomGestures(true)
   .showLabels(true);</code></pre>
+            <p class="desc"><small>Data source: http://www.handelskampanjen.no/handelskartet</small></p>
         </div>
      </div>
     </div>
@@ -83,11 +90,11 @@
   <div class="section">
     <div class="container">
       <div class="columns XXXis-gapless">
-        <div class="column is-8 wrapper">
-          <h2 class="title is-3">Forest area (% of land area)</h2>
+        <div class="column is-7 wrapper">
+          <h2 class="title is-3">World Migration</h2>
           <div id="map3"></div>
         </div>
-        <div class="column is-3">
+        <div class="column is-4">
           <pre><code class="language-js">new Map()
   .data(data)
   .geoData(world)
@@ -98,6 +105,7 @@
   .showToolTipOn('hover')
   .backgroundgColor('#6C7C7C');</code></pre>
         </div>
+          <p class="desc"><small>Data source: http://www.un.org/en/development/desa/population/migration/data/estimates2/estimates15.shtml</small></p>
      </div>
     </div>
   </div>
@@ -106,10 +114,21 @@
     <div class="container">
       <div class="columns XXXis-gapless">
 
-        <div class="column is-8 wrapper">
+        <div class="column is-7 wrapper">
+          <h2 class="title is-3">World By Income</h2>
           <div id="map4"></div>
         </div>
         <div class="column is-3">
+
+          <h3 class="title is-5">Legend</h3>
+          <ul class="legend legend4">
+            <li><span id="HIC"></span>High income</li>
+            <li><span id="UMC"></span>Upper middle income</li>
+            <li><span id="LMC"></span>Lower middle income</li>
+            <li><span id="LMY"></span>Low & middle income</li>
+            <li><span id="LIC"></span>Low income</li>
+          </ul>
+
           <pre><code class="language-js">new Map()
   .data(data)
   .geoData(world)
@@ -118,10 +137,372 @@
   .zoomResetOnOceanClick(true)
   .showToolTipOn(false)
   .backgroundgColor('#006994');</code></pre>
+     </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="container">
+      <div class="columns">
+        <div class="column is-12">
+          <!--startoptions--><h1 id="d3by5-map">d3by5-map</h1>
+<h2 id="options">Options</h2>
+<h3 id="basics">Basics</h3>
+<table>
+<thead>
+<tr>
+<th>Option</th>
+<th>Type</th>
+<th>Default</th>
+<th>Desciption</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>width</td>
+<td>Number</td>
+<td>960</td>
+</tr>
+<tr>
+<td>height</td>
+<td>Number</td>
+<td>500</td>
+</tr>
+<tr>
+<td>aspectRatio</td>
+<td>Number</td>
+<td>500 / 960</td>
+</tr>
+<tr>
+<td>margin</td>
+<td>Number</td>
+<td>20</td>
+<td>for now single value</td>
+</tr>
+<tr>
+<td>offSetX</td>
+<td>Number</td>
+<td>0</td>
+<td>shifts the entire map horisointally in pixels</td>
+</tr>
+<tr>
+<td>offSetY</td>
+<td>Number</td>
+<td>0</td>
+<td>shifts the entire map veritcaly in pixels</td>
+</tr>
+<tr>
+<td>showLabels</td>
+<td>Boolean or String</td>
+<td>0</td>
+<td>Bboolean or integer] false/0 = off, true/1 = on, 2 - 20 = zoomLevelTreshold</td>
+</tr>
+<tr>
+<td>higlightOnHover</td>
+<td>Boolean</td>
+<td>false</td>
+<td>higlight country (or group of countries) on hover</td>
+</tr>
+<tr>
+<td>showToolTipOn</td>
+<td>String</td>
+<td>&#39;hover&#39;</td>
+<td>[click, hover, none]</td>
+</tr>
+<tr>
+<td>toolTipTemplate</td>
+<td>Function</td>
+<td>[See below]</td>
+<td>A function that returns the markup four your tooltip.</td>
+</tr>
+<tr>
+<td>assetsUrl</td>
+<td>String</td>
+<td>&#39;/&#39;</td>
+<td>base path to asset files</td>
+</tr>
+<tr>
+<td>classPrefix</td>
+<td>String</td>
+<td>&#39;d3x5_&#39;</td>
+<td></td>
+</tr>
+<tr>
+<td>debug</td>
+<td>Boolean</td>
+<td>false</td>
+<td>Toggles debug messages (warning and such) to the console.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="map">Map</h3>
+<table>
+<thead>
+<tr>
+<th>Option</th>
+<th>Type</th>
+<th>Default</th>
+<th>Desciption</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>geoData</td>
+<td>object</td>
+<td>{}</td>
+<td>topoJson (only for now)</td>
+</tr>
+<tr>
+<td>projection</td>
+<td>String</td>
+<td>&#39;geoMercator&#39;</td>
+<td>projection</td>
+</tr>
+<tr>
+<td>scale</td>
+<td>float</td>
+<td>0.85</td>
+<td>not quiter sure about this one</td>
+</tr>
+<tr>
+<td>responsive</td>
+<td>Boolean</td>
+<td>false</td>
+</tr>
+<tr>
+<td>graticule</td>
+<td>Boolean</td>
+<td>false</td>
+<td>graticules; a uniform grid of meridians and parallels for showing projection distortion</td>
+</tr>
+<tr>
+<td>projectionFit</td>
+<td>Boolean</td>
+<td>true</td>
+<td>tries to fit the map inside container. Todo; rename ??</td>
+</tr>
+</tbody>
+</table>
+<h3 id="data-visualization">Data Visualization</h3>
+<table>
+<thead>
+<tr>
+<th>Option</th>
+<th>Type</th>
+<th>Default</th>
+<th>Desciption</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>data</td>
+<td>object</td>
+<td>{}</td>
+<td>data to visualize</td>
+</tr>
+<tr>
+<td>color</td>
+<td>Function</td>
+<td>null</td>
+</tr>
+<tr>
+<td>texture</td>
+<td>Function</td>
+<td>null</td>
+</tr>
+<tr>
+<td>colorKey</td>
+<td>String</td>
+<td>null</td>
+</tr>
+<tr>
+<td>textureKey</td>
+<td>String</td>
+<td>null</td>
+</tr>
+<tr>
+<td>countryIsoCodeMap</td>
+<td>String</td>
+<td>&#39;properties.countryCode&#39;</td>
+<td>If the topojson does not store the ISO code in  &quot;geometries.id&quot;, use this to map the correct attribute (uses dot notation, eg &quot;properties.countryCode&quot;)</td>
+</tr>
+</tbody>
+</table>
+<h3 id="zoom">Zoom</h3>
+<table>
+<thead>
+<tr>
+<th>Option</th>
+<th>Type</th>
+<th>Default</th>
+<th>Desciption</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>zoomMin</td>
+<td>Number</td>
+<td>1</td>
+<td>min zoom level</td>
+</tr>
+<tr>
+<td>zoomMax</td>
+<td>Number</td>
+<td>20</td>
+<td>max zoom level</td>
+</tr>
+<tr>
+<td>zoomGestures</td>
+<td>Boolean</td>
+<td>true</td>
+<td>&quot;Free zoom&quot; (mouse scroll wheel, touch gestures)</td>
+</tr>
+<tr>
+<td>zoomControls</td>
+<td>Boolean</td>
+<td>false</td>
+<td>toggle zoomButtons</td>
+</tr>
+<tr>
+<td>zoomResetOnOceanClick</td>
+<td>Boolean</td>
+<td>false</td>
+<td>reset zoom on background area click</td>
+</tr>
+</tbody>
+</table>
+<h3 id="colors">Colors</h3>
+<table>
+<thead>
+<tr>
+<th>Option</th>
+<th>Type</th>
+<th>Default</th>
+<th>Desciption</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>baseColor</td>
+<td>String</td>
+<td>&#39;#F8EBCB&#39;</td>
+</tr>
+<tr>
+<td>backgroundgColor</td>
+<td>String</td>
+<td>&#39;none&#39;</td>
+<td>&#39;none&#39; for transparent or #HEX</td>
+</tr>
+<tr>
+<td>accentColor</td>
+<td>String</td>
+<td>&#39;#FF6B6B&#39;</td>
+</tr>
+<tr>
+<td>borderColor</td>
+<td>String</td>
+<td>&#39;#9DBFB1&#39;</td>
+</tr>
+</tbody>
+</table>
+<h2 id="tool-tip-template">Tool Tip Template</h2>
+<pre><code>function(d, data) { 
+    return &#39;&lt;h3 class=&quot;d3x5_tooltip__header&quot;&gt;&#39; + d.properties.name + &#39;&lt;/h3&gt;&#39;; 
+}
+</code></pre><h2 id="data-schema">Data Schema</h2>
+<h3 id="csv">CSV</h3>
+<p>Must include one column referencing the country. This could be:
+&#39;id&#39;, &#39;countrycode&#39;, &#39;countryCode&#39;, &#39;country&#39;, &#39;Country&#39;, &#39;countryName&#39;, &#39;countryname&#39;. Or it can be set as an option <a href="#footnote-1">1</a></p>
+<h4 id="example">Example</h4>
+<pre><code>&quot;country&quot;,&quot;id&quot;,&quot;immigration&quot;,&quot;emmigration&quot;,&quot;netmigration&quot;
+&quot;Afghanistan&quot;,&quot;4&quot;,&quot;382365&quot;,&quot;4843117&quot;,&quot;-4460752&quot;
+&quot;Albania&quot;,&quot;8&quot;,&quot;57616&quot;,&quot;1122910&quot;,&quot;-1065294&quot;
+&quot;Algeria&quot;,&quot;12&quot;,&quot;242391&quot;,&quot;1763771&quot;,&quot;-1521380&quot;
+</code></pre><p><em>Note</em>: Numeric Country codes are padded. So in the example above id 4 is read as 004.</p>
+<h3 id="json-array">JSON array</h3>
+<p>You can present the data as an array of objects. Each object must include one property referencing the country. This could be: &#39;id&#39;, &#39;countrycode&#39;, &#39;countryCode&#39;, &#39;country&#39;, &#39;Country&#39;, &#39;countryName&#39;, &#39;countryname&#39;. Or it can be set as an option <a href="#footnote-1">1</a></p>
+<h4 id="example">Example</h4>
+<pre><code>[
+    {
+        id: &quot;ABW&quot;,
+        iso2Code: &quot;AW&quot;,
+        name: &quot;Aruba&quot;,
+        region: {
+            id: &quot;LCN&quot;,
+            value: &quot;Latin America &amp; Caribbean &quot;
+            },
+        adminregion: {
+            id: &quot;&quot;,
+            value: &quot;&quot;
+        },
+        incomeLevel: {
+            id: &quot;HIC&quot;,
+            value: &quot;High income&quot;
+        },
+        lendingType: {
+            id: &quot;LNX&quot;,
+            value: &quot;Not classified&quot;
+        },
+        capitalCity: &quot;Oranjestad&quot;,
+        longitude: &quot;-70.0167&quot;,
+        latitude: &quot;12.5167&quot;
+    },
+    {
+        id: &quot;AFG&quot;,
+        iso2Code: &quot;AF&quot;,
+        name: &quot;Afghanistan&quot;,
+        ...
+    }
+    ...
+]
+</code></pre><h3 id="json-object">JSON object</h3>
+<p>Countries group by iso-3166 country codes (alpha2, alpha3 of numeric). Optional porperties can be included and referenced in the options. Spesicifcally complex mapping of colors and/or textures.</p>
+<h4 id="example">Example</h4>
+<pre><code>{
+  &quot;countries&quot;: {
+    &quot;ALB&quot;: {
+      &quot;groups&quot;: [
+        &quot;industry&quot;,
+        &quot;tradd&quot;
+      ],
+      &quot;fillColorMapKey&quot;: [
+        &quot;efta&quot;,
+        &quot;bits&quot;
+      ]
+    },
+    &quot;BIH&quot;: {
+      &quot;groups&quot;: [
+        &quot;patents&quot;,
+        &quot;medicin&quot;
+      ],
+      &quot;fillColorMapKey&quot;: [
+        &quot;efta&quot;
+      ]
+    },
+    ...
+}
+</code></pre><p>[1]: See option</p>
+<h2 id="on-my-todo-list">On my Todo list</h2>
+<ul>
+<li>Re-write in ES6</li>
+<li>Replace budo/browserify with better dev tooling</li>
+<li>Minify basic functionality and move extras to optional extensions / plugins. E.g textures and projections</li>
+<li>Move d3 out of bundle</li>
+<li>Remove lodash dependency</li>
+<li>Replace iso-3166-1 dependency</li>
+</ul>
+<h2 id="contribution">Contribution</h2>
+<p>Please fork freely, submit pull requests bravely and raise issues friendly.</p>
+<h2 id="credits">Credits</h2>
+<p>All is dependent on <a href="https://d3js.org/">d3</a> and <a href="https://github.com/topojson/topojson">topojson</a>. Additional projections uses <a href="https://github.com/d3/d3-geo-projection">d3-geo-projection</a>. Textures uses [textures.js] (<a href="https://riccardoscalco.github.io/textures/">https://riccardoscalco.github.io/textures/</a>), country codes uses <a href="https://github.com/ecrmnn/iso-3166-1">iso-3166-1</a>. Inspired by <a href="datamaps.github.io">DataMaps</a>.</p>
+<h2 id="copyright-and-license">Copyright and license</h2>
+<p>Code copyright 2017 Svale Fossåskaret / Kartoteket . Code released under <a href="https://github.com/kartoteket/d3by5-map/blob/master/LICENSE">the MIT license</a>.</p>
+<!--endoptions-->
         </div>
       </div>
     </div>
-  </div>
+</div>
+
 
   <footer class="footer">
     <div class="container">
@@ -136,6 +517,8 @@
 
   <a href="https://github.com/kartoteket/d3by5-map"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://camo.githubusercontent.com/a6677b08c955af8400f44c6298f40e7d19cc5b2d/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f677261795f3664366436642e706e67" alt="Fork me on GitHub" data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_gray_6d6d6d.png"></a>
 
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/4.9.1/d3.min.js"></script>
+  <script src="https://rawgit.com/d3/d3-plugins/master/jsonp/jsonp.js"></script>
   <script src="bundle.js"></script>
   <script src="js/prism.js"></script>
 </body>

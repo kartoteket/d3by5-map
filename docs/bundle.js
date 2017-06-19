@@ -21,7 +21,8 @@
        */
       options : {
 
-        data : {},                   // data to visualize
+        debug: false,
+        data : {values : null},      // data to visualize. TODO: remove values
         geoData : {},                // topoJson (only for now)
 
         width : 960,
@@ -50,6 +51,8 @@
         projectionFit: true,         // tries to fit the map inside container. Todo: rename ??
 
         countryIsoCodeMap : 'properties.countryCode',    // If the topojson does not store the ISO code in  "geometries.id", use this to map the correct attribute (uses dot notation, eg "properties.countryCode")
+        geometries: 'countries',       // TODO: Document. References the topojson geometries object
+
 
         color: null,
         texture: null,
@@ -104,6 +107,12 @@
 
           // pass along the selection
           map.selection = selection;
+
+          // use selection to set a unique identifier (TODO: but what if selection is based on class ??)
+          map.id = selection.node().id;
+
+          // Add required position: relative to element (for position of tooltips)
+          selection.style('position', 'relative');
 
           // hook up listener to resize if responsive
           d3.select(window).on('resize',  _.bind(map.resize, map));
@@ -178,8 +187,8 @@
             .on('end', zoomedEnd);
 
           // geoJson
-          countries = topojson.feature(opt.geoData, opt.geoData.objects.countries).features;
-          neighbors = topojson.neighbors(opt.geoData.objects.countries.geometries);
+          countries = topojson.feature(opt.geoData, opt.geoData.objects[opt.geometries]).features;
+          neighbors = topojson.neighbors(opt.geoData.objects[opt.geometries].geometries);
 
           // mapping iso country code in geoData (topojson).
           if(opt.countryIsoCodeMap) {
@@ -190,61 +199,82 @@
                   id = id ? id[countryIsoCodeMap[i]] : d[countryIsoCodeMap[i]];
                 }
                 if (id) {
-                  d.id = iso3166.whereAlpha2(id).alpha2 || iso3166.whereAlpha3(id).alpha2 || d.id;
+                  if (iso3166) {
+                    d.id = iso3166.whereAlpha2(id).alpha2 || iso3166.whereAlpha3(id).alpha2 || iso3166.whereNumeric(id).alpha2 || d.id;                    
+                  } else {
+                    d.id = id
+                  }
                 }
+                // console.log(d.id);
             });
 
-            // Parse data (move this somwhere probably)
+            // Parse data that comes in other shapes and forms (move this somwhere probably)
             // Need to define a set schema.
 
-            // 1) look for a countryCode or countryName
-            if (data.columns) { //d3.csv() exposes a coumns property
+            if (data && (data.columns || Array.isArray(data))) {
+              var key = null;
               var notFound = [];
               var keys = [_.last(countryIsoCodeMap, 1), 'id', 'countrycode', 'countryCode', 'country', 'Country', 'countryName', 'countryname'];
-              var key = data.columns.find(function(d) {
-                return keys.includes(d);
-              });
-
-              if ( key ) {
-
+              var parseDataByKey = function (key) {
                 data.countries = {};
                 data.forEach( function (d) {
                   var id = d[key];
                   var country = null;
-                  if(id) {
-                    country = iso3166.whereAlpha2(id) || iso3166.whereAlpha3(id) || iso3166.whereNumeric(id) || iso3166.whereCountry(id);
+if (iso3166) {
+                  if (id) {
+                    country = iso3166.whereAlpha2(id) || iso3166.whereAlpha3(id) || iso3166.whereNumeric(d3.format('03')(id)) || iso3166.whereCountry(id);
                   }
                   if (country) {
                     data.countries[country.alpha3] = d;
                   } else {
-                    notFound.push(id);
+                    notFound.push(d.country);
                   }
+} else {
+                    data.countries[id] = d;
+
+}
                 });
               }
 
-              if (notFound.length) {
+              // 1) look for a countryCode or countryName
+              if (data.columns) { //d3.csv() exposes a columns property
+                key = keys.find(function(d) {
+                  return data.columns.includes(d);
+                });
+
+              // 2) if data is an array of countries
+              } else if (Array.isArray(data)) {
+
+                key = keys.find(function(d) {
+                  return Object.keys(data[0]).includes(d);
+                });
+              }
+
+              if ( key ) {
+                // console.log(key);
+                parseDataByKey(key);
+              }
+
+              if (that.debug && notFound.length) {
                 console.log('Warning! Not found: ' + notFound.join(', '));
               }
             }
-
-
-            // if (_.isArray(data) && _.has(data[0],_.last(countryIsoCodeMap, 1))) {
-            //   data.forEach( function (d) {
-            //     d[_.last(countryIsoCodeMap, 1)] = iso3166.from(d.Country).to3();
-            //   });
-            //   console.log( data[1]);
-            // }
-
           }
 
           // extend countries properties with custom data
           // TODO. Ad hoc for now, currently just assumes that the data has a country alph3 id as key...
           countries.forEach( function (c) {
-            var country = iso3166.whereAlpha2(c.id.toString());
-            if (country) {
-              var id = country.alpha3; // tmp ad hoc alpha3 conversion
-              if(_.has(data.countries, id)) {
-                _.assign(c.properties, data.countries[id]);
+            if (iso3166) {
+              var country = iso3166.whereAlpha2(c.id.toString());
+              if (country) {
+                var id = country.alpha3; // tmp ad hoc alpha3 conversion
+                if(_.has(data.countries, id)) {
+                  _.assign(c.properties, data.countries[id]);
+                }
+              }
+            } else {
+              if(_.has(data.countries, c.id)) {
+                _.assign(c.properties, data.countries[c.id]);
               }
             }
           });
@@ -405,14 +435,19 @@
               .style('fill', function(d, i) { // TODO move all this to a setFill()-function ??!?
 
                 // default fill with base color
+                var id
                 var fill = opt.baseColor;
 
                 // get country
-                var country = iso3166.whereAlpha2(d.id.toString()); // probably best to fork this and make sure it can:
-                                                                    // typecast strings and
-                                                                    // return undefined
-                                                                    // look up more fuzzy (st/Saints, &/and, short forms)
-                var id = country ? country.alpha3 : null;           // tmp ad hoc alpha3 conversion
+                if (iso3166) {
+                  var country = iso3166.whereAlpha2(d.id.toString()); // probably best to fork this and make sure it can:
+                                                                      // typecast strings and
+                                                                      // return undefined
+                                                                      // look up more fuzzy (st/Saints, &/and, short forms)
+                  id = country ? country.alpha3 : null;           // tmp ad hoc alpha3 conversion
+                } else {
+                  id = d.id;
+                }
 
                 if(opt.color && data.countries[id]) { // ad hoc force alpha3. TOOD: Test for this
                   fill = opt.color(d.colorKey[0]);
@@ -450,7 +485,7 @@
           // add border-lines between countries
           // TODO Toggle as option
           g.append('path')
-            .datum(topojson.mesh(opt.geoData, opt.geoData.objects.countries, function(a, b) { return a !== b; }))
+            .datum(topojson.mesh(opt.geoData, opt.geoData.objects[opt.geometries], function(a, b) { return a !== b; }))
             .classed(opt.classPrefix + 'boundary', true)
             .attr('d', path)
             .style('fill', 'none')
@@ -829,7 +864,7 @@
 
         // if on click, add close button
         if( this.options.showToolTipOn === 'click') {
-          toolTip.html('<a href="#" class="d3x5_tooltip__close"><img src="' + opt.assetsUrl +'images/close.svg"></a>');
+          toolTip.html('<a class="d3x5_tooltip__close"><img src="' + opt.assetsUrl +'images/close.svg"></a>');
           toolTip.select('.'+opt.classPrefix+'tooltip__close').on('click', map.closeToolTip);
         }
 
@@ -957,7 +992,7 @@
           }
 
           if(this.options.projectionFit) {
-              var object = topojson.feature(this.options.geoData, {type: 'GeometryCollection', geometries: this.options.geoData.objects.countries.geometries });
+              var object = topojson.feature(this.options.geoData, {type: 'GeometryCollection', geometries: this.options.geoData.objects[this.options.geometries].geometries });
               projection.fitExtent([[this.options.margin, this.options.margin], [width-this.options.margin, height-this.options.margin]], object);
               // projection.fitSize([width, height], object);
 
@@ -1123,6 +1158,11 @@
         return arguments.length ? (this.options.countryIsoCodeMap = value, this) : this.options.countryIsoCodeMap;
       },
 
+      geometries: function(value) {
+        return arguments.length ? (this.options.geometries = value, this) : this.options.geometries;
+      },
+
+
       showLabels: function(value) {
         return arguments.length ? (this.options.showLabels = value, this) : this.options.showLabels;
       },
@@ -1142,14 +1182,18 @@
       classPrefix: function(value) {
         return arguments.length ? (this.options.classPrefix = value, this) : this.options.classPrefix;
       },
-
-
+      debug: function(value) {
+        return arguments.length ? (this.options.debug = value, this) : this.options.debug;
+      },
       // extra bulk setters/getters
       setOptions: function(value) {
         return arguments.length ? (_.extend(this.options, value), this) :  this.options;
       },
       getOptions: function() {
         return this.options;
+      },
+      getId: function(value) {
+        return this.id;
       }
     };
 
@@ -1161,7 +1205,7 @@
 },{"d3":9,"d3-geo-projection":5,"iso-3166-1":10,"lodash":12,"textures":13,"topojson":15}],2:[function(require,module,exports){
 // dependencies
 var _           = require('lodash');
-var d3          = require('d3');
+// var d3          = require('d3');
 var colorBrewer = require('d3-scale-chromatic');
 var Map         = require('../../d3by5-map');
 
@@ -1170,19 +1214,14 @@ var width       = document.getElementsByClassName('wrapper')[0].offsetWidth;
 var height      = 400;
 
 function mapExample1(world, data) {
-    var fsiColors;
+    var colors = d3.scaleQuantile();
     var min = d3.min(data, function(d) { return (+d.FSI);} );
     var max = d3.max(data, function(d) { return (+d.FSI);} );
-    // var mean = d3.mean(fsi, function(d) { return (+d.FSI);} );
-    // var median = d3.median(fsi, function(d) { return (+d.FSI);} );
-    // var extent = d3.extent(fsi, function(d) { return (+d.FSI);} );
 
-    // fsiColors = d3.scaleSequential(colorBrewer.interpolateRdYlGn)
-    fsiColors = d3.scaleThreshold();
-    fsiColors.domain([0, min, 50, 100, 200, 400, 800, max]);
-    fsiColors.range(colorBrewer.schemeRdYlGn[9].reverse());
+    colors.domain([50, 100, 200, 400, 800, max]);
+    colors.range(colorBrewer.schemeRdYlGn[7].reverse());
 
-    var fsiToolTipTemplate = function(d, data) {
+    var toolTipTemplate = function(d, data) {
       var tooltipHtml = ['<h3 class="d3x5_tooltip__header">', d.properties.name, '</h3>'];
       tooltipHtml =  _.concat(tooltipHtml, '<div class="d3x5_tooltip__content">');
       if (d.properties.FSI) {
@@ -1197,13 +1236,40 @@ function mapExample1(world, data) {
     .height(height)
     .data({values: data}) // TODO: Remove values
     .geoData(world)
-    .color(fsiColors)
+    .color(colors)
     .colorKey('properties.FSI')
     .zoomResetOnOceanClick(true)
     .showToolTipOn('hover')
-    .toolTipTemplate(fsiToolTipTemplate)
+    .toolTipTemplate(toolTipTemplate)
     // .backgroundgColor('#006994')
     ;
+
+
+    var prev = 0;
+    var range;
+    d3.select('.legend1')
+      .style('color', '#fff')
+      .selectAll('li')
+      .data(colors.domain())
+      .enter()
+      .append('li')
+      .text(function(d, i){
+        if (i < 1) {
+          range = '< - ' + d;
+        } else if (i === colors.domain().length-1) {
+          range = prev + ' - >';
+        } else {
+          range = prev + ' - ' + d;
+        }
+        prev = d;
+        return range;
+      })
+      .append('span')
+      .style('background-color', function(d){
+        return colors(d);
+      })
+      ;
+
 }
 
 function mapExample2(world, data) {
@@ -1255,52 +1321,104 @@ function mapExample2(world, data) {
 }
 
 function mapExample3(world, data) {
-  var colors = d3.scaleOrdinal()
-    .domain(_.map(_.filter(data.groups, ['type', 'treatise']), 'name'))
-    .range(['#F4CD2E', '#E16E51', '#4292A1']);
+
+  // console.log(data);
+
+  var min = d3.min(data, function(d) { return (+d.netmigration);} );
+  var max = d3.max(data, function(d) { return (+d.netmigration);} );
+  var q1 = d3.quantile((data, function(d) { return (+d.netmigration);}), 0.5 );
+  var median = d3.median(data, function(d) { return (+d.netmigration);} );
+  var variance = d3.variance(data, function(d) { return (+d.netmigration);} );
+  var deviation = d3.deviation(data, function(d) { return (+d.netmigration);} );
+
+  // var colors = d3.scaleLinear();
+  // var colors = d3.scaleSequential(colorBrewer.interpolatePiYG)
+  //   .domain([min, max]);
+
+// var colors = d3.scaleLinear()
+//   .domain([min, 0, 4460752, max])
+//   .range(['red', '#e9a3c9', '#a1d76a', 'green']);
+
+var colors = d3.scaleLinear()
+    .domain([min, 0, max])
+    .range(['rgb(175, 141, 195)', 'rgb(233,233,233)', 'rgb(127, 191, 123)'])
+
+    var formatComma = d3.format(",");
+    var toolTipTemplate = function(d, data) {
+      var tooltipHtml = ['<h3 class="d3x5_tooltip__header">', d.properties.name, '</h3>'];
+      tooltipHtml =  _.concat(tooltipHtml, '<div class="d3x5_tooltip__content">');
+      if (d.properties.immigration) {
+        tooltipHtml =  _.concat(tooltipHtml, '<h4>Immigration: ', formatComma(d.properties.immigration), '</h4>');
+      }
+      if (d.properties.emmigration) {
+        tooltipHtml =  _.concat(tooltipHtml, '<br><h4>Emmigration: ', formatComma(d.properties.emmigration), '</h4>');
+      }
+      if (d.properties.netmigration) {
+        tooltipHtml =  _.concat(tooltipHtml, '<br><h4>Net migration: ', formatComma(d.properties.netmigration), '</h4>');
+      }
+
+      tooltipHtml =  _.concat(tooltipHtml, '</div>');
+      return tooltipHtml.join('');
+  };
+
 
   map3 = new Map()
     .width(width)
     .height(height)
     .data({values: data})
     .geoData(world)
-    .projection('geoAzimuthalEqualArea')
-    // .color(colors)
-    .colorKey('properties.fillColorMapKey')
+    // .projection('geoAzimuthalEqualArea')
+    .color(colors)
+    .colorKey('properties.netmigration')
     .showLabels(3)
     .zoomResetOnOceanClick(true)
-    .showToolTipOn('hover')
+    .showToolTipOn('click')
+    .toolTipTemplate(toolTipTemplate)
+    .debug(true)
     // .backgroundgColor('#6C7C7C')
     ;
 }
 
-function mapExample4(world, data) {
-  var colors = d3.scaleOrdinal()
-    .domain(_.map(_.filter(data.groups, ['type', 'treatise']), 'name'))
-    .range(['#F4CD2E', '#E16E51', '#4292A1']);
 
-  map4 = new Map()
-    .width(width)
-    .height(height)
-    .data({values: data})
-    .geoData(world)
-    .projection('geoEckert4')
-    .color(colors)
-    .colorKey('properties.fillColorMapKey')
-    // .texture(textures)
-    .zoomResetOnOceanClick(true)
-    .showToolTipOn(false)
-    // .backgroundgColor('#006994')
-    ;
+function mapExample4(world) {
+
+  d3.jsonp('http://api.worldbank.org/countries?per_page=400&format=jsonP&prefix={callback}', function(data) {
+
+    var colors = d3.scaleOrdinal()
+      .domain(['HIC', 'UMC', 'LMC', 'LMY', 'LIC'])
+      .range(colorBrewer.schemePastel1);
+
+    map4 = new Map()
+      .width(width)
+      .height(height)
+      .data({values: data[1] })
+      .geoData(world)
+      .projection('geoEckert4')
+      .color(colors)
+      .colorKey('properties.incomeLevel.id')
+      // .texture(textures)
+      .zoomResetOnOceanClick(true)
+      .showToolTipOn(false)
+      // .backgroundgColor('#006994')
+      ;
+
+      d3.select('#map4').call(map4.init);
+
+      d3.selectAll('.legend4 > li > span')
+        .style('background-color', function(){
+          return colors(this.id)
+        });
+
+  });
 }
 
 
 // load data
 d3.queue()
-  .defer(d3.json, 'data/world-topo.json')      // our geometries
-  .defer(d3.csv, 'data/FSI-top10-2015.csv')    // demo data fsi
-  .defer(d3.json, 'data/demo-data.json')       // our demo data
-  .defer(d3.json, 'data/demo-data-map3.json')  // our demo data
+  .defer(d3.json, 'data/world-topo.json')       // our geometries
+  .defer(d3.csv, 'data/FSI-top10-2015.csv')     // demo data fsi
+  .defer(d3.json, 'data/demo-data.json')        // our demo data
+  .defer(d3.csv, 'data/migration.csv')         // our demo data
   .await(loadMaps);
 
 // init when ready
@@ -1314,15 +1432,13 @@ function loadMaps(error, world, fsiData, tradeData, demoData3) {
     mapExample4(world, demoData3);
 
    // call on elm
-   // TODO: Need to pick up unique elmidentifier in script
    d3.select('#map1').call(map1.init);
    d3.select('#map2').call(map2.init);
    d3.select('#map3').call(map3.init);
-   d3.select('#map4').call(map4.init);
 
 }
 
-},{"../../d3by5-map":1,"d3":9,"d3-scale-chromatic":8,"lodash":12}],3:[function(require,module,exports){
+},{"../../d3by5-map":1,"d3-scale-chromatic":8,"lodash":12}],3:[function(require,module,exports){
 // https://d3js.org/d3-array/ Version 1.2.0. Copyright 2017 Mike Bostock.
 (function (global, factory) {
 	typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports) :
