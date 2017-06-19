@@ -863,7 +863,7 @@ if (iso3166) {
 
         // if on click, add close button
         if( this.options.showToolTipOn === 'click') {
-          toolTip.html('<a href="#" class="d3x5_tooltip__close"><img src="' + opt.assetsUrl +'images/close.svg"></a>');
+          toolTip.html('<a class="d3x5_tooltip__close"><img src="' + opt.assetsUrl +'images/close.svg"></a>');
           toolTip.select('.'+opt.classPrefix+'tooltip__close').on('click', map.closeToolTip);
         }
 
