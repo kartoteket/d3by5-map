@@ -20,8 +20,8 @@
        */
       options : {
 
-        debug: false, // tod setter/getter
         data : {},                   // data to visualize
+        debug: false,
         geoData : {},                // topoJson (only for now)
 
         width : 960,
@@ -1152,8 +1152,9 @@
       classPrefix: function(value) {
         return arguments.length ? (this.options.classPrefix = value, this) : this.options.classPrefix;
       },
-
-
+      debug: function(value) {
+        return arguments.length ? (this.options.debug = value, this) : this.options.debug;
+      },
       // extra bulk setters/getters
       setOptions: function(value) {
         return arguments.length ? (_.extend(this.options, value), this) :  this.options;
