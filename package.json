@@ -6,6 +6,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "bin/dev.sh",
+    "prebuild": "node bin/buildDocs.js",
     "build": "bin/build.sh"
   },
   "repository": {
@@ -45,9 +46,11 @@
     "browserify": "*",
     "cssnano": "^3.10.0",
     "livereload": "*",
+    "marked": "^0.3.6",
     "node-sass": "*",
     "onchange": "*",
     "postcss-cli": "*",
+    "replace-in-file": "^2.5.0",
     "uglify-js": "*"
   }
 }
