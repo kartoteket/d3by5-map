@@ -107,6 +107,9 @@
           // pass along the selection
           map.selection = selection;
 
+          // use selection to set a unique identifier (TODO: but what if selection is based on class ??)
+          map.id = selection.node().id;
+
           // hook up listener to resize if responsive
           d3.select(window).on('resize',  _.bind(map.resize, map));
 
@@ -1161,6 +1164,9 @@
       },
       getOptions: function() {
         return this.options;
+      },
+      getId: function(value) {
+        return this.id;
       }
     };
 
