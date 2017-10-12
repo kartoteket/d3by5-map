@@ -1593,6 +1593,50 @@ a.box:active {
   background-color: transparent;
 }
 
+.docs {
+  color: #fff;
+}
+
+.docs h1 {
+  font-size: 3rem;
+}
+
+.docs h2 {
+  font-size: 2rem;
+  line-height: 2;
+  margin-top: 1rem;
+}
+
+.docs h3 {
+  font-size: 1.5rem;
+  line-height: 2;
+}
+
+.docs p {
+  line-height: 1.3;
+  margin-bottom: 1rem;
+}
+
+.docs table {
+  max-width: 900px;
+  margin-bottom: 1rem;
+}
+
+.docs table td {
+  padding: 5px;
+}
+
+.docs table th {
+  color: #fff;
+  border-bottom: 1px solid #fff;
+}
+
+.docs pre {
+  display: block;
+  max-width: 900px;
+  margin-bottom: 1rem;
+}
+
 /**
  * prism style overrides
  */

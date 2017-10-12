@@ -84,6 +84,44 @@ $grey-light: #BFBCB8;
   }
 }
 
+.docs {
+  color: #fff;
+  h1 {
+    font-size: 3rem;
+  }
+  h2 {
+    font-size: 2rem;
+    line-height: 2;
+    margin-top: 1rem;
+  }
+  h3 {
+    font-size: 1.5rem;
+    line-height: 2;
+  }
+  p {
+    line-height: 1.3;
+    margin-bottom: 1rem;
+  }
+
+  table {
+    max-width: 900px;
+    margin-bottom: 1rem;
+    td {
+      padding: 5px;
+    }
+
+    th {
+      color: #fff;
+      border-bottom: 1px solid #fff;
+    }
+  }
+  pre {
+    display: block;
+    max-width: 900px;
+    margin-bottom: 1rem;
+  }
+}
+
 
 /**
  * prism style overrides
